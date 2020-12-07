@@ -5,14 +5,13 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyAjBO7soCBefMn_6HvM2ucvalmheyOqOSE",
-    authDomain: "ourboatmonitor-6afb9.firebaseapp.com",
-    databaseURL: "https://ourboatmonitor-6afb9.firebaseio.com",
-    projectId: "ourboatmonitor-6afb9",
-    storageBucket: "ourboatmonitor-6afb9.appspot.com",
-    messagingSenderId: "89347802465",
-    appId: "1:89347802465:web:8c80ff474e7924c5f1f120",
-    measurementId: "G-HQSS6FELTJ",
+    apiKey: "AIzaSyAykvHGfLntzpTm4jM6gQQ3Y4BIOxy28H4",
+    authDomain: "ourboatmonitor.firebaseapp.com",
+    projectId: "ourboatmonitor",
+    storageBucket: "ourboatmonitor.appspot.com",
+    messagingSenderId: "964230888539",
+    appId: "1:964230888539:web:303aa2a9bc7be926fb937e",
+    measurementId: "G-GS61B28Z1G"
   },
 };
 
