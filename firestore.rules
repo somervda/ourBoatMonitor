@@ -1,0 +1,86 @@
+rules_version='2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // **************  Reusable functions ********************
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+       return isAuthenticated() &&
+          get( /databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+     }
+
+    // function isActivated() {
+    //    return isAuthenticated() &&
+    //       get( /databases/$(database)/documents/users/$(request.auth.uid)).data.isActivated == true;
+    //  }
+
+    function updatingField(field) {
+      // Check to see if named field is being updated
+      return (field in request.resource.data) && resource.data[field] != request.resource.data[field];
+    }
+
+
+    // ****** Document Access functionsnp
+
+    // user document rules (Delete not allowed)
+
+      match /users/{user} {
+          allow read :  if isAdmin() 
+                          ||
+                          (isAuthenticated() &&
+                             user==request.auth.uid)  ;
+          allow  create:  if isAuthenticated() &&
+                             user==request.auth.uid ;
+          allow update: if (isAdmin() &&
+                             user!=request.auth.uid )
+                          ||
+                          (isAuthenticated() &&
+                          user==request.auth.uid &&
+                          !updatingField("isAdmin") &&
+                          !updatingField("isActivated")
+                          );
+    }
+
+    match /{path=**}/devicetypes/{id} {
+      allow read:  if isAuthenticated();
+      allow write:  if isAdmin();
+    }
+
+    match /{path=**}/devices/{id} {
+      allow read:  if isAuthenticated();
+      allow write:  if isAdmin();
+    }
+
+    match /{path=**}/devicetypes/{did}/sensors/{sid} {
+      allow read:  if isAuthenticated();
+      allow write:  if isAdmin();
+    }
+
+    match /{path=**}/events/{id} {
+      allow read:  if isAuthenticated();
+    }
+
+    match /{path=**}/triggerlogs/{id} {
+      allow read:  if isAuthenticated();
+    }
+
+    match /{path=**}/applications/{id} {
+      allow read:  if isAuthenticated();
+      allow write:  if isAdmin();
+    }
+
+    match /{path=**}/applications/{aid}/triggers/{tid} {
+      allow read:  if isAuthenticated();
+      allow write:  if isAdmin();
+    }
+
+    match /{path=**}/applications/{aid}/views/{tid} {
+      allow read:  if isAuthenticated();
+      allow write:  if isAdmin();
+    }
+  }
+}

@@ -1,0 +1,63 @@
+<app-subheading
+  [prompt]="view.name"
+  matIcon="table_chart"
+  [iconActions]="[
+    {
+      icon: 'arrow_back',
+      toolTip: 'Return to My Views',
+      routerLink: '/myviews'
+    }
+  ]"
+></app-subheading>
+
+<div class="page-container" style="min-width: 380px">
+  <mat-card style="margin-bottom: 10px">
+    <mat-card style="margin-bottom: 10px">
+      <div class="grid50percent500">
+        <div>
+          <mat-form-field style="width: 90%">
+            <mat-label>Chart Type</mat-label>
+            <mat-select
+              [(value)]="viewType"
+              (selectionChange)="onOptionChange()"
+            >
+              <mat-option
+                *ngFor="let viewTypeInfoItem of ViewTypeInfo"
+                [value]="viewTypeInfoItem.viewType"
+              >
+                {{ viewTypeInfoItem.nameShort }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field style="width: 90%">
+            <mat-label>Maximum number of events to show</mat-label>
+            <mat-select
+              [(value)]="maxRows"
+              (selectionChange)="onOptionChange()"
+            >
+              <mat-option [value]="5">5</mat-option>
+              <mat-option [value]="10">10</mat-option>
+              <mat-option [value]="25">25</mat-option>
+              <mat-option [value]="50">50</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card>
+
+    <google-chart
+      *ngIf="showChart"
+      #chart
+      [type]="chartType"
+      [data]="chartData"
+      [columns]="chartColumns"
+      [options]="chartOptions"
+      dynamicResize="true"
+      class="googleChart"
+    >
+    </google-chart>
+  </mat-card>
+  {{ view.description }}
+</div>

@@ -1,0 +1,20 @@
+<div class="dialog-heading">User Selector</div>
+
+<div class="dialog-list">
+  <div
+    class="list-item"
+    *ngFor="let user of users$ | async"
+    [style.backgroundColor]="isInUser(user.id) ? 'lightgrey' : 'white'"
+    (click)="onListItemSelected(user.id)"
+  >
+    {{ user.displayName }}
+  </div>
+</div>
+
+<button mat-button matTooltip="Update Information" (click)="returnItem()">
+  <mat-icon>check</mat-icon>OK
+</button>
+
+<button mat-button matTooltip="Cancel" mat-dialog-close>
+  <mat-icon>close</mat-icon>Cancel
+</button>

@@ -1,0 +1,25 @@
+.nowrap {
+  white-space: nowrap;
+}
+
+.break-all {
+  word-break: break-all;
+}
+
+.fileUploadMsg {
+  color: red;
+}
+
+// Create a 2 column layout when screen is more than 500px wide
+@media (min-width: 500px) {
+  .gridwrapper {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-gap: 10px;
+  }
+}
+
+.photoURL {
+  height: 75px;
+  margin-bottom: 5px;
+}

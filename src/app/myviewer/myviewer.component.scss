@@ -1,0 +1,12 @@
+.googleChart {
+  width: 100%;
+  min-height: 300px;
+}
+
+@media (min-width: 500px) {
+  .grid50percent500 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+  }
+}

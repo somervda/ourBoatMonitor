@@ -1,0 +1,11 @@
+{
+  "baseUrl": "http://localhost:4200/",
+  "env": {
+    "nonAdminUser": "normal@ourLora.com",
+    "nonAdminUserPassword": "password",
+    "adminUser": "admin@ourLora.com",
+    "adminUserPassword": "password"
+  },
+  "requestTimeout": 10000,
+  "defaultCommandTimeout": 8000
+}

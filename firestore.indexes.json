@@ -1,0 +1,24 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "events",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "applicationRefs",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "sensorRef",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "timestamp",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+
+  ],
+  "fieldOverrides": []
+}

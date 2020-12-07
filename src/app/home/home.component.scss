@@ -1,0 +1,18 @@
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.home-card {
+  margin: 5px;
+}
+
+.card-1-image {
+  background-image: url("../../assets/images/card-1.png");
+  background-size: cover;
+}
+
+.card-2-image {
+  background-image: url("../../assets/images/card-2.png");
+  background-size: cover;
+}

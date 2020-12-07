@@ -1,0 +1,12 @@
+curl -X POST \
+  https://fcm.googleapis.com/fcm/send \
+  -H 'Authorization: key=AAAAFM2LRWE:APA91bELQ9FODKZhKyw193HiGtAjDTPGsvpjZvpBN0wyCXJr1mZZ9A9JEeSQqyiNBHAkbmHCM3oD-cWQDyrIx1uvqjj__ElvpteLfm_dqztEdFi6aDHCGBWZHfmxtvDq52vmeD4V5P8i' \
+  -H 'Content-Type: application/json' \
+  -d '{"notification" : {"title" : "Hey there","body" : "body"},"to":"fNFuAtzfs6kh3WwTkHXpnW:APA91bEPM9p9H_x0Nf758j66nK9cNU5shTS7qcMiHgoe5smYtFXRgdQgcLZHCaso14iJBWj5HkmLx859vUwpgejPAxwmIZwUXlSrXKJyn2JzZLy1udk1ybRNMK4FJ5Z1wtGKxx0ffV1w"}'
+  
+  
+  curl -X POST \
+  https://fcm.googleapis.com/fcm/send \
+  -H 'Authorization: key=AAAAFM2LRWE:APA91bELQ9FODKZhKyw193HiGtAjDTPGsvpjZvpBN0wyCXJr1mZZ9A9JEeSQqyiNBHAkbmHCM3oD-cWQDyrIx1uvqjj__ElvpteLfm_dqztEdFi6aDHCGBWZHfmxtvDq52vmeD4V5P8i' \
+  -H 'Content-Type: application/json' \
+  -d '{"notification" : {"title" : "Alert from Mailbox","body" : "Mailbox was opened at 5:00"},"to":"e5gMOXGiB9k4zCItqc-VB8:APA91bGiCm1O1xa6HeOk1ovNYg7xpvWJtt4hoAbt-aWwQ2dzUJxuQXTSvsRbjlIapsG9PLPyi7b_TKzOhOdECmsqdgPdMZtS5SvpIuxVdCwt5EI8fvukfv1VUJbxrddk9AXLCx5i6UkA"}'

@@ -1,0 +1,20 @@
+<div class="dialog-heading">Device Selector</div>
+
+<div class="dialog-list">
+  <div
+    class="list-item"
+    *ngFor="let device of devices$ | async"
+    [style.backgroundColor]="isInDevice(device.id) ? 'lightgrey' : 'white'"
+    (click)="onListItemSelected(device.id)"
+  >
+    {{ device.name }}
+  </div>
+</div>
+
+<button mat-button matTooltip="Update Information" (click)="returnItem()">
+  <mat-icon>check</mat-icon>OK
+</button>
+
+<button mat-button matTooltip="Cancel" mat-dialog-close>
+  <mat-icon>close</mat-icon>Cancel
+</button>

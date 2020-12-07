@@ -1,0 +1,26 @@
+<div class="dialog-heading">{{ data.heading }}</div>
+
+<div class="dialog-prompt">{{ data.prompt }}</div>
+
+<div class="full-width">
+  <button
+    mat-button
+    class="button-left"
+    matTooltip="Update Category Information"
+    (click)="returnChoice(true)"
+    id="yes"
+  >
+    <mat-icon>check</mat-icon>Yes
+  </button>
+
+  <button
+    mat-button
+    matTooltip="Cancel"
+    (click)="returnChoice(false)"
+    class="button-right"
+    id="no"
+    cdkFocusInitial
+  >
+    <mat-icon>close</mat-icon>No
+  </button>
+</div>

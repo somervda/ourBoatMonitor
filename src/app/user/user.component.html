@@ -1,0 +1,133 @@
+<mat-spinner *ngIf="showSpinner" class="spinner_container"></mat-spinner>
+<app-subheading prompt="User Profile" matIcon="person"></app-subheading>
+<div class="page-container">
+  <!-- Use an array of keyValuePairs to display most of the user properties -->
+  <div class="gridwrapper">
+    <div class="prompt">DisplayName</div>
+    <div>{{ (user$ | async)?.displayName }}</div>
+    <div class="prompt">UID</div>
+    <div>{{ (user$ | async)?.uid }}</div>
+    <div class="prompt">eMail</div>
+    <div>{{ (user$ | async)?.email }}</div>
+    <div class="prompt">Created</div>
+    <div>
+      {{ getDate((user$ | async)?.dateCreated) }}
+    </div>
+    <div class="prompt">Last Logon</div>
+    <div>
+      {{ getDate((user$ | async)?.dateLastLogon) }}
+    </div>
+
+    <div class="prompt">Photo</div>
+    <div>
+      <img class="photoURL" src="{{ (user$ | async)?.photoURL }}" />
+      <!-- {{ (user$ | async)?.photoURL }} -->
+
+      <div>
+        <button
+          class="add-button"
+          mat-raised-button
+          (click)="fileUpload.click()"
+        >
+          <mat-icon>add</mat-icon>Upload New Photo
+        </button>
+        <div class="fileUploadMsg">{{ fileUploadMsg }}</div>
+
+        <input
+          type="file"
+          #fileUpload
+          hidden="true"
+          (change)="onUploadFile($event)"
+          multiple="false"
+          accept="image/*"
+        />
+      </div>
+    </div>
+
+    <div class="prompt">Is Administrator?</div>
+    <div>
+      <mat-checkbox
+        #isAdmin
+        [ngModel]="(user$ | async)?.isAdmin"
+        (click)="updateField('isAdmin', !isAdmin.checked)"
+        [disabled]="!fullAccess"
+        matTooltip="Administrators have open access to all functions in the system, and can manage other users"
+      ></mat-checkbox>
+    </div>
+
+    <div class="prompt">Is Activated?</div>
+    <div>
+      <mat-checkbox
+        #isActivated
+        [ngModel]="(user$ | async)?.isActivated"
+        (click)="updateField('isActivated', !isActivated.checked)"
+        [disabled]="!fullAccess"
+        matTooltip="Users must be activated before any access is provided to the system"
+      ></mat-checkbox>
+    </div>
+
+    <!-- Can update notification settings if looking at own profile -->
+    <ng-container *ngIf="auth.currentUser.uid == uid">
+      <!-- Notifications (FCM) : Subscribe/Unsubscribe -->
+      <div
+        class="prompt"
+        [matTooltip]="
+          'Note: Recommendation is to associate messaging with your primary mobile device like a phone,' +
+          ' only one device can be assigned per user.'
+        "
+      >
+        Send messages to this device?
+      </div>
+      <div>
+        <button
+          mat-raised-button
+          (click)="subscribeToMessaging()"
+          *ngIf="!hasToken"
+        >
+          Subscribe
+        </button>
+        <button
+          mat-raised-button
+          (click)="unsubscribeFromMessaging()"
+          *ngIf="hasToken"
+        >
+          UnSubscribe
+        </button>
+      </div>
+
+      <!-- Enter sms phone number -->
+      <div
+        class="prompt"
+        matTooltip="Enter a phone number to receive SMS notifications. Must be E164 format with a leading + Country code (1 to 3 digits), Subscriber number (max 12 digits) i.e. +16101234567"
+      >
+        SMS Phone Number
+      </div>
+
+      <div>
+        <input
+          matInput
+          placeholder="+16101234567"
+          #e164
+          [ngModel]="(user$ | async)?.smsPhoneE164"
+          (keyup)="onSmsPhoneE164Change(e164.value)"
+        />
+        <div *ngIf="!isE164(e164.value)" style="color: red">
+          Error: Invalid E164 phone number
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Can not update notification settings for other users, but can view them -->
+    <ng-container *ngIf="auth.currentUser.uid != uid">
+      <div class="prompt">Send messages to this device?</div>
+      <div>
+        {{ hasToken ? "Yes" : "No" }}
+      </div>
+      <div class="prompt">SMS Phone Number</div>
+
+      <div>
+        {{ (user$ | async)?.smsPhoneE164 }}
+      </div>
+    </ng-container>
+  </div>
+</div>

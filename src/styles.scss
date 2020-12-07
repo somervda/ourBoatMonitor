@@ -1,0 +1,53 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "~firebaseui/dist/firebaseui.css";
+
+/* You can add global styles to this file, and also import other style files */
+
+@import "~@angular/material/theming";
+
+// Include non-theme styles for core.
+@include mat-core();
+
+$primary: mat-palette($mat-light-blue, 900);
+$accent: mat-palette($mat-deep-orange);
+
+// Define a theme.
+// $primary: mat-palette($mat-teal, 800);
+// $accent: mat-palette($mat-deep-orange);
+
+$theme: mat-light-theme($primary, $accent);
+
+// Include all theme styles for the components.
+@include angular-material-theme($theme);
+
+body {
+  background-color: lightgray;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.page-container {
+  margin: 10px;
+}
+
+// Create a 2 column layout when screen is more than 500px wide
+@media (min-width: 768px) {
+  .grid2wrapper {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    grid-gap: 10px;
+  }
+  .grid50percent {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+  }
+}
+
+.prompt {
+  font-weight: 600;
+}
+
+fieldset {
+  border-style: none;
+}

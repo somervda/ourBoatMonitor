@@ -1,0 +1,10 @@
+firebase functions:config:set twilio.phone="+1415123456" twilio.sid="Example SID" twilio.authtoken="Example AuthToken"
+
+firebase functions:config:set email.user="user@gmail.com"  email.password="password"
+
+firebase functions:config:set iotauthentication.header="Basic b3VyTG9yYTpwYXNzd29yZA=="  
+
+firebase functions:config:get
+
+
+Note: You really do need to do a function deploy after any sets to apply the cong changes

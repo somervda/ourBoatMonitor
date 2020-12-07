@@ -1,0 +1,79 @@
+<mat-card>
+  <ng-container *ngIf="!disabled">
+    <div>
+      <span class="prompt">Triggers</span>
+      <button
+        mat-raised-button
+        [routerLink]="'/application/' + application.id + '/trigger/create'"
+        style="float: right; margin-bottom: 10px; width: 200px"
+      >
+        <i class="material-icons-outlined">add</i>&nbsp;
+        <span>Create a New Trigger</span>
+      </button>
+      <br />
+    </div>
+  </ng-container>
+
+  <table mat-table [dataSource]="triggers$ | async" class="mat-elevation-z8">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let trigger">
+        <ng-container *ngIf="!disabled">
+          <a
+            [routerLink]="
+              '/application/' + application.id + '/trigger/' + trigger.id
+            "
+            [matTooltip]="
+              trigger.active ? 'Update Trigger' : 'Update Trigger : Inactive'
+            "
+            >{{ trigger.name }}</a
+          >
+        </ng-container>
+        <ng-container *ngIf="disabled">
+          {{ trigger.name }}
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Description</th>
+      <td mat-cell *matCellDef="let trigger" [class.inactive]="!trigger.active">
+        {{ trigger.description | truncate: 40 }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="triggerAction">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let trigger" [class.inactive]="!trigger.active">
+        {{ getTriggerActionInfoItem(trigger.triggerAction).nameShort }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td
+        mat-cell
+        class="deleteRow"
+        *matCellDef="let trigger"
+        [style.display]="disabled ? 'none' : ''"
+      >
+        <button
+          mat-button
+          [routerLink]="
+            '/application/' +
+            application.id +
+            '/trigger/' +
+            trigger.id +
+            '/delete'
+          "
+          matTooltip="Delete Trigger"
+        >
+          <mat-icon>clear</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</mat-card>

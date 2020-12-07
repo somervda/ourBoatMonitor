@@ -1,0 +1,20 @@
+<mat-toolbar>
+  <mat-icon *ngIf="matIcon">{{ matIcon }}</mat-icon
+  >&nbsp;
+  {{ prompt }}
+  <span style="width: 100%;"> </span>
+  <mat-slide-toggle
+    (change)="enhancedChange($event)"
+    matTooltip="Enhanced Functionality?"
+    [hidden]="!enhanced"
+  ></mat-slide-toggle>
+  <button
+    mat-button
+    *ngFor="let iconAction of iconActions"
+    [routerLink]="iconAction.routerLink"
+    (click)="iconActionClick(iconAction.emitValue)"
+    [matTooltip]="iconAction.toolTip"
+  >
+    <mat-icon>{{ iconAction.icon }}</mat-icon>
+  </button>
+</mat-toolbar>

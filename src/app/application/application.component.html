@@ -1,0 +1,170 @@
+<app-subheading
+  [prompt]="
+    'Application - ' +
+    (crudAction == Crud.Create
+      ? 'Create'
+      : crudAction == Crud.Update
+      ? 'Update'
+      : 'Delete')
+  "
+  [iconActions]="[
+    {
+      icon: 'arrow_back',
+      toolTip: 'Return to Applications',
+      routerLink: '/applications'
+    }
+  ]"
+  matIcon="category"
+></app-subheading>
+<div class="page-container">
+  <form class="standard-form" [formGroup]="applicationForm">
+    <fieldset [disabled]="crudAction == Crud.Delete">
+      <mat-form-field class="full-width">
+        <input
+          matInput
+          formControlName="name"
+          (change)="onFieldUpdate('name')"
+          placeholder="Name"
+          required
+        />
+        <mat-error
+          *ngIf="applicationForm.controls['name'].hasError('required')"
+        >
+          Name is required.
+        </mat-error>
+        <mat-error
+          *ngIf="applicationForm.controls['name'].hasError('minlength')"
+        >
+          Name must be at least 3 characters long.
+        </mat-error>
+        <mat-error
+          *ngIf="applicationForm.controls['name'].hasError('maxlength')"
+        >
+          Name must be no more than 35 characters long.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <textarea
+          matInput
+          formControlName="description"
+          (change)="onFieldUpdate('description')"
+          matAutosizeMinRows="3"
+          matAutosizeMaxRows="10"
+          matTextareaAutosize
+          placeholder="Description"
+          required
+        ></textarea>
+        <mat-error
+          *ngIf="applicationForm.controls['description'].hasError('required')"
+        >
+          Description is required.
+        </mat-error>
+        <mat-error
+          *ngIf="applicationForm.controls['description'].hasError('minlength')"
+        >
+          Description must be at least 10 characters long.
+        </mat-error>
+        <mat-error
+          *ngIf="applicationForm.controls['description'].hasError('maxlength')"
+        >
+          Description must be no more than 500 characters long.
+        </mat-error>
+      </mat-form-field>
+    </fieldset>
+    <ng-container *ngIf="crudAction != Crud.Create">
+      <mat-card>
+        <div>
+          <span class="prompt">Users</span>
+          <button
+            mat-raised-button
+            (click)="updateUsers()"
+            id="btnUpdateUsers"
+            style="float: right; margin-bottom: 20px; width: 200px"
+          >
+            Update Users
+          </button>
+        </div>
+        <br />
+        <div>
+          <ng-container
+            *ngFor="let userRef of application?.userRefs; let i = index"
+          >
+            <ng-container *ngIf="i > 0">, </ng-container>
+            <span> {{ (userRef | doc | async)?.displayName }}</span>
+          </ng-container>
+          <ng-container
+            *ngIf="!application?.userRefs || application?.userRefs.length == 0"
+            >None</ng-container
+          >
+        </div>
+      </mat-card>
+    </ng-container>
+    <br />
+    <ng-container *ngIf="crudAction != Crud.Create">
+      <mat-card>
+        <div>
+          <span class="prompt">Devices</span>
+          <button
+            mat-raised-button
+            [disabled]="crudAction == Crud.Delete"
+            (click)="updateDevices()"
+            id="btnUpdateDevices"
+            style="float: right; margin-bottom: 20px; width: 200px"
+          >
+            Update Devices
+          </button>
+        </div>
+        <br />
+        <div>
+          <ng-container
+            *ngFor="let deviceRef of application?.deviceRefs; let i = index"
+          >
+            <ng-container *ngIf="i > 0">, </ng-container>
+            <span> {{ (deviceRef | doc | async)?.name }}</span>
+          </ng-container>
+          <ng-container
+            *ngIf="
+              !application?.deviceRefs || application?.deviceRefs.length == 0
+            "
+            >None</ng-container
+          >
+        </div>
+      </mat-card>
+    </ng-container>
+    <br />
+    <app-triggerslist
+      [application]="application"
+      *ngIf="crudAction != Crud.Create"
+      [disabled]="crudAction == Crud.Delete"
+    ></app-triggerslist>
+    <br />
+    <app-viewslist
+      [application]="application"
+      *ngIf="crudAction != Crud.Create"
+      [disabled]="crudAction == Crud.Delete"
+    ></app-viewslist>
+    <br />
+    <button
+      mat-raised-button
+      color="primary"
+      *ngIf="crudAction == Crud.Create"
+      [disabled]="!applicationForm.valid"
+      (click)="onCreate()"
+      id="btnCreate"
+    >
+      <mat-icon>add</mat-icon>
+      Create
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      *ngIf="crudAction == Crud.Delete"
+      (click)="onDelete()"
+      id="btnDelete"
+    >
+      <mat-icon>clear</mat-icon>
+      Delete
+    </button>
+  </form>
+</div>

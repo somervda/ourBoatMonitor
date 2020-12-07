@@ -1,0 +1,195 @@
+<app-subheading
+  [prompt]="
+    'Device - ' +
+    (crudAction == Crud.Create
+      ? 'Create'
+      : crudAction == Crud.Update
+      ? 'Update'
+      : 'Delete')
+  "
+  [iconActions]="[
+    {
+      icon: 'arrow_back',
+      toolTip: 'Return to Devices',
+      routerLink: '/devices'
+    }
+  ]"
+  matIcon="memory"
+></app-subheading>
+<div class="page-container">
+  <form class="standard-form" [formGroup]="deviceForm">
+    <fieldset [disabled]="crudAction == Crud.Delete">
+      <mat-form-field class="half-width">
+        <input
+          matInput
+          formControlName="name"
+          (change)="onFieldUpdate('name')"
+          placeholder="Name"
+          required
+        />
+        <mat-error *ngIf="deviceForm.controls['name'].hasError('required')">
+          Name is required.
+        </mat-error>
+        <mat-error *ngIf="deviceForm.controls['name'].hasError('minlength')">
+          Name must be at least 3 characters long.
+        </mat-error>
+        <mat-error *ngIf="deviceForm.controls['name'].hasError('maxlength')">
+          Name must be no more than 35 characters long.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="half-width">
+        <input
+          matInput
+          formControlName="deviceId"
+          (change)="onFieldUpdate('deviceId')"
+          placeholder="Device Id"
+          required
+        />
+        <mat-error *ngIf="deviceForm.controls['deviceId'].hasError('required')">
+          Device Id is required.
+        </mat-error>
+        <mat-error
+          *ngIf="deviceForm.controls['deviceId'].hasError('maxlength')"
+        >
+          Name must be no more than 80 characters long.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <textarea
+          matInput
+          formControlName="description"
+          (change)="onFieldUpdate('description')"
+          matAutosizeMinRows="3"
+          matAutosizeMaxRows="10"
+          matTextareaAutosize
+          placeholder="Description"
+          required
+        ></textarea>
+        <mat-error
+          *ngIf="deviceForm.controls['description'].hasError('required')"
+        >
+          Description is required.
+        </mat-error>
+        <mat-error
+          *ngIf="deviceForm.controls['description'].hasError('minlength')"
+        >
+          Description must be at least 10 characters long.
+        </mat-error>
+        <mat-error
+          *ngIf="deviceForm.controls['description'].hasError('maxlength')"
+        >
+          Description must be no more than 500 characters long.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="half-width">
+        <mat-label>Device Type</mat-label>
+        <mat-select
+          formControlName="deviceTypeRef"
+          (selectionChange)="onFieldUpdate('deviceTypeRef')"
+          [compareWith]="objectComparisonFunction"
+        >
+          <mat-option
+            *ngFor="let deviceType of devicetypes$ | async"
+            [value]="helper.docRef('/devicetypes/' + deviceType.id)"
+          >
+            {{ deviceType?.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="deviceForm.controls['deviceTypeRef'].hasError('required')"
+        >
+          Device Type is required.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="half-width">
+        <mat-label>IOT Data Source *</mat-label>
+        <mat-select
+          formControlName="iotDataSource"
+          (selectionChange)="onFieldUpdate('iotDataSource')"
+        >
+          <mat-option
+            *ngFor="let iotDataSourceItem of IotDataSourceInfo"
+            [value]="iotDataSourceItem.iotDataSource"
+          >
+            {{ iotDataSourceItem.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="deviceForm.controls['iotDataSource'].hasError('required')"
+        >
+          IOT Data Source is required.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="half-width">
+        <input
+          matInput
+          formControlName="latitude"
+          (change)="onFieldUpdate('latitude', 'number')"
+          placeholder="Latitude"
+        />
+        <mat-error *ngIf="deviceForm.controls['latitude'].hasError('required')">
+          Latitude is required.
+        </mat-error>
+        <mat-error
+          *ngIf="
+            deviceForm.controls['latitude'].hasError('min') ||
+            deviceForm.controls['latitude'].hasError('max') ||
+            deviceForm.controls['latitude'].hasError('pattern')
+          "
+        >
+          Invalid latitude format. (Must be between -90 and +90)
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="half-width">
+        <input
+          matInput
+          formControlName="longitude"
+          (change)="onFieldUpdate('longitude', 'number')"
+          placeholder="Longitude"
+        />
+        <mat-error
+          *ngIf="deviceForm.controls['longitude'].hasError('required')"
+        >
+          Longitude is required.
+        </mat-error>
+        <mat-error
+          *ngIf="
+            deviceForm.controls['longitude'].hasError('min') ||
+            deviceForm.controls['longitude'].hasError('max') ||
+            deviceForm.controls['longitude'].hasError('pattern')
+          "
+        >
+          Invalid longitude format. (Must be between -180 and +180)
+        </mat-error>
+      </mat-form-field>
+    </fieldset>
+
+    <button
+      mat-raised-button
+      color="primary"
+      *ngIf="crudAction == Crud.Create"
+      [disabled]="!deviceForm.valid"
+      (click)="onCreate()"
+      id="btnCreate"
+    >
+      <mat-icon>add</mat-icon>
+      Create
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      *ngIf="crudAction == Crud.Delete"
+      (click)="onDelete()"
+      id="btnDelete"
+    >
+      <mat-icon>clear</mat-icon>
+      Delete
+    </button>
+  </form>
+</div>

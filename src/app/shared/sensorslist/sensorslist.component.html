@@ -1,0 +1,75 @@
+<mat-card>
+  <ng-container *ngIf="!disabled">
+    <div>
+      <span class="prompt">Sensors</span>
+      <button
+        mat-raised-button
+        [routerLink]="'/devicetype/' + devicetype.id + '/sensor/create'"
+        style="float: right; margin-bottom: 10px; width: 200px"
+      >
+        <i class="material-icons-outlined">add</i>&nbsp;
+        <span>Create a New Sensor</span>
+      </button>
+    </div>
+    <br />
+  </ng-container>
+
+  <table mat-table [dataSource]="sensors$ | async" class="mat-elevation-z8">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let sensor">
+        <ng-container *ngIf="!disabled">
+          <a
+            [routerLink]="
+              '/devicetype/' + devicetype.id + '/sensor/' + sensor.id
+            "
+            [matTooltip]="'Update Sensor'"
+            >{{ sensor.name }}</a
+          >
+        </ng-container>
+        <ng-container *ngIf="disabled">
+          {{ sensor.name }}
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Description</th>
+      <td mat-cell *matCellDef="let sensor">
+        {{ sensor.description | truncate: 40 }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="uom">
+      <th mat-header-cell *matHeaderCellDef>UOM</th>
+      <td mat-cell *matCellDef="let sensor">
+        <div [matTooltip]="getUOMInfoItem(sensor.uom)?.name">
+          {{ getUOMInfoItem(sensor.uom)?.nameShort }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td
+        mat-cell
+        class="deleteRow"
+        *matCellDef="let sensor"
+        [style.display]="disabled ? 'none' : ''"
+      >
+        <button
+          mat-button
+          [routerLink]="
+            '/devicetype/' + devicetype.id + '/sensor/' + sensor.id + '/delete'
+          "
+          matTooltip="Delete Sensor"
+        >
+          <mat-icon>clear</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</mat-card>

@@ -1,0 +1,44 @@
+<app-subheading prompt="Devices" matIcon="memory"></app-subheading>
+<div class="page-container">
+  <button
+    mat-raised-button
+    routerLink="/device/create"
+    style="float: right; margin-bottom: 10px"
+  >
+    <i class="material-icons-outlined">add</i>&nbsp;
+    <span>Create a New Device</span>
+  </button>
+  <br />
+
+  <table mat-table [dataSource]="devices$ | async" class="mat-elevation-z8">
+    <ng-container matColumnDef="name" sticky>
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let device">
+        <a routerLink="/device/{{ device.id }}">{{ device.name }}</a>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Description</th>
+      <td mat-cell *matCellDef="let device">
+        {{ device.description | truncate: 100 }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell class="deleteRow" *matCellDef="let device">
+        <button
+          mat-button
+          [routerLink]="['/device/', device.id, 'delete']"
+          matTooltip="Delete User Group"
+        >
+          <mat-icon>clear</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>

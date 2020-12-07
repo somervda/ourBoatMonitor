@@ -1,0 +1,71 @@
+<mat-card>
+  <ng-container *ngIf="!disabled">
+    <div>
+      <span class="prompt">Views</span>
+      <button
+        mat-raised-button
+        [routerLink]="'/application/' + application.id + '/view/create'"
+        style="float: right; margin-bottom: 10px; width: 200px"
+      >
+        <i class="material-icons-outlined">add</i>&nbsp;
+        <span>Create a New View</span>
+      </button>
+    </div>
+    <br />
+  </ng-container>
+
+  <table mat-table [dataSource]="views$ | async" class="mat-elevation-z8">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let view">
+        <ng-container *ngIf="!disabled">
+          <a
+            [routerLink]="'/application/' + application.id + '/view/' + view.id"
+            [matTooltip]="'Update View'"
+            >{{ view.name }}</a
+          >
+        </ng-container>
+        <ng-container *ngIf="disabled">
+          {{ view.name }}
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Description</th>
+      <td mat-cell *matCellDef="let view">
+        {{ view.description | truncate: 40 }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="viewType">
+      <th mat-header-cell *matHeaderCellDef>Type</th>
+      <td mat-cell *matCellDef="let view">
+        {{ getViewTypeInfoItem(view.viewType).nameShort }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td
+        mat-cell
+        class="deleteRow"
+        *matCellDef="let view"
+        [style.display]="disabled ? 'none' : ''"
+      >
+        <button
+          mat-button
+          [routerLink]="
+            '/application/' + application.id + '/view/' + view.id + '/delete'
+          "
+          matTooltip="Delete View"
+        >
+          <mat-icon>clear</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</mat-card>

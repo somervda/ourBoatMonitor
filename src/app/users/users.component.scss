@@ -1,0 +1,22 @@
+.tableSizeMaximizer {
+  max-height: 1000px;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-table-sticky:first-child {
+  border-right: 1px solid #e0e0e0;
+}
+
+th.mat-column-position,
+td.mat-column-position {
+  padding-left: 8px;
+}
+
+td.mat-cell,
+th.mat-header-cell {
+  padding-left: 8px;
+}
