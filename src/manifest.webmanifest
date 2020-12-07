@@ -1,6 +1,6 @@
 {
-  "name": "ourLora Lorawan IOT application",
-  "short_name": "ourLora",
+  "name": "ourBoatMonitor Lorawan IOT application",
+  "short_name": "ourBoatMonitor",
   "theme_color": "#005e2f",
   "background_color": "#fafafa",
   "display": "standalone",

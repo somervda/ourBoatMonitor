@@ -10,10 +10,10 @@ import { eventTrigger } from "./trigger";
 
 /**
  * The https function accepting IOT data from the various IOT middleware systems supported
- * by the ourLora system. (Update user/password before using these)
+ * by the ourBoatMonitor system. (Update user/password before using these)
  * Testing with curl:
- * curl -d '{"payload_fields" : {"dev_id": "curlTest01", "TEMPERATURE": 99}}' -H 'Content-Type: application/json' --user ourLora:password https://ourLora.com/iotBroker
- * curl -d '{"payload_fields" : {"dev_id": "curlTest02", "TEMPERATURE": 66}}' -H 'Content-Type: application/json' --user ourLora:password https://ourLora.com/iotBroker
+ * curl -d '{"payload_fields" : {"dev_id": "curlTest01", "TEMPERATURE": 99}}' -H 'Content-Type: application/json' --user ourBoatMonitor:password https://ourBoatMonitor.com/iotBroker
+ * curl -d '{"payload_fields" : {"dev_id": "curlTest02", "TEMPERATURE": 66}}' -H 'Content-Type: application/json' --user ourBoatMonitor:password https://ourBoatMonitor.com/iotBroker
  */
 export const iotBroker = functions.https.onRequest(
   async (request, response) => {

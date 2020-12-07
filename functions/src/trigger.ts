@@ -204,7 +204,7 @@ function sendEmail(trigger: Trigger, event: Event, user: User) {
     `<b>Value</b> ${event.value} ${uomInfoItem?.nameShort}`;
 
   const mailOptions = {
-    from: "ourLora <olupincorp@gmail.com>",
+    from: "ourBoatMonitor <olupincorp@gmail.com>",
     to: user.email,
     subject: trigger.name, // email subject
     html: html, // email content in HTML

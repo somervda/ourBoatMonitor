@@ -1,5 +1,5 @@
 {
-  "name": "our-lora",
+  "name": "our-boat-monitor",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "cypress open",
-    "sme": "source-map-explorer dist/ourLora/**/*.js ",
+    "sme": "source-map-explorer dist/ourBoatMonitor/**/*.js ",
     "deploy": "ng build --prod && firebase deploy --only hosting && firebase deploy --only firestore:rules && firebase deploy --only functions"
   },
   "private": true,

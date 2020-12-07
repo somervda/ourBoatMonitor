@@ -11,7 +11,7 @@ import { MessagingService } from "./services/messaging.service";
   styleUrls: ["./app.component.scss"],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = "ourLora";
+  title = "ourBoatMonitor";
   isConnected = true;
   onlineEvent$: Observable<Event>;
   offlineEvent$: Observable<Event>;

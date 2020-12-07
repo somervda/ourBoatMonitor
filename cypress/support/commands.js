@@ -55,7 +55,7 @@ Cypress.Commands.add("verifyUsersComponent", () => {
   cy.get("#mainMenu").click();
   cy.get("#mainMenuUsers").click();
   cy.get("body").contains("Users");
-  cy.get("body").contains("normal@ourLora.com").click();
+  cy.get("body").contains("normal@ourBoatMonitor.com").click();
   cy.url().should("include", "user/");
   cy.get("body").contains("User Profile");
 });
