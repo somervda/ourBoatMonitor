@@ -8,22 +8,17 @@
     <mat-card-header class="card-header">
       <div mat-card-avatar class="card-1-image"></div>
       <mat-card-title>ourBoatMonitor</mat-card-title>
-      <mat-card-subtitle
-        >Lorawan IOT management and reporting system</mat-card-subtitle
-      >
+      <mat-card-subtitle>Monitor the status of your boat </mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
       <p>
-        This project manages a IOT (Internet of Things) boat monitor that
-        monitors the location, temperature, humidity and battery level for the
-        boat. This information is periodically sync'ed with a the ourBoatMonitor
-        application running on the google cloud and exposed toa user via a
-        Angular frontend. Communication from the boat to the backend uses the
-        Lora wireless system (Allowing long range, low power communication) to
-        the TTN (The Things Network) LoraWan service. The IOT device is based on
-        pycoms' hardware and uses the micro-python programming language for
-        simplicity.
+        Manage the status information being sent from your boat and the
+        ourBoatMonitor hardware. This includes; monitoring of the boat
+        temperature and humidity, the location based on GPS, the boat battery
+        voltage and current level of bilge water. Notifications can be sent when
+        any of these sensors exceed a predefined threshold. Also historic views
+        are available of this sensor data over time.
       </p>
     </mat-card-content>
   </mat-card>
