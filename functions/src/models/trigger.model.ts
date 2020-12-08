@@ -18,7 +18,6 @@ export interface Trigger {
  * Action to perform if a trigger is fired
  */
 export enum TriggerAction {
-  "Notification" = 1,
   "eMail" = 2,
   "Log" = 3,
   "SMS" = 4,
@@ -31,11 +30,6 @@ export interface TriggerActionInfoItem {
 }
 
 export const TriggerActionInfo: TriggerActionInfoItem[] = [
-  {
-    value: 1,
-    name: "Send a User Notification",
-    nameShort: "Notification",
-  },
   {
     value: 2,
     name: "Send a User EMail",

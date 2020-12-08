@@ -14,8 +14,5 @@ export interface User {
   // Indicates the user has administration rights including ability to
   // set a users roles
   isActivated?: Boolean;
-  // The Firebase Cloud Messaging (FCM) tokens registered for device
-  // Note: Only one user can be associated with a certain device
-  deviceMessagingToken?: string;
   smsPhoneE164?: string;
 }

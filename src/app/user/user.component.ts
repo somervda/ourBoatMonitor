@@ -7,7 +7,6 @@ import { User } from "../models/user.model";
 import { HelperService } from "../services/helper.service";
 import { AuthService } from "./../services/auth.service";
 import { UserService } from "./../services/user.service";
-import { MessagingService } from "../services/messaging.service";
 // import { AngularFireMessaging } from "@angular/fire/messaging";
 
 @Component({
@@ -19,8 +18,8 @@ export class UserComponent implements OnInit, OnDestroy {
   user$: Observable<User>;
   uid: string;
   user: User;
-  userSubscription$$: Subscription;
-  tokenSubscription$$: Subscription;
+  // userSubscription$$: Subscription;
+  // tokenSubscription$$: Subscription;
   // messageToken: string;
   // If only the photo can be updated unless the user has fullAccess
   fullAccess: boolean = false;
@@ -36,8 +35,7 @@ export class UserComponent implements OnInit, OnDestroy {
     private userService: UserService,
     public auth: AuthService,
     private storage: AngularFireStorage,
-    private helper: HelperService,
-    private messagingService: MessagingService // private angularFireMessaging: AngularFireMessaging
+    private helper: HelperService
   ) {}
 
   ngOnInit() {
@@ -56,13 +54,13 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     this.user$ = this.userService.findUserByUid(this.uid);
-    this.userSubscription$$ = this.user$.subscribe((user) => {
-      this.user = user;
-      this.hasToken = false;
-      if (user.deviceMessagingToken && user.deviceMessagingToken != "") {
-        this.hasToken = true;
-      }
-    });
+    // this.userSubscription$$ = this.user$.subscribe((user) => {
+    //   this.user = user;
+    //   this.hasToken = false;
+    //   if (user.deviceMessagingToken && user.deviceMessagingToken != "") {
+    //     this.hasToken = true;
+    //   }
+    // });
     // Track the messaging token state
     // this.tokenSubscription$$ = this.angularFireMessaging.tokenChanges.subscribe(
     //   (token) => {
@@ -122,10 +120,10 @@ export class UserComponent implements OnInit, OnDestroy {
     return sDate;
   }
 
-  subscribeToMessaging() {
-    console.log("subscribeToMessaging");
-    this.messagingService.requestPermissionAndToken(this.user);
-  }
+  // subscribeToMessaging() {
+  //   console.log("subscribeToMessaging");
+  //   this.messagingService.requestPermissionAndToken(this.user);
+  // }
 
   isE164(e164: string): boolean {
     if (e164 == "") {
@@ -141,13 +139,13 @@ export class UserComponent implements OnInit, OnDestroy {
     }
   }
 
-  unsubscribeFromMessaging() {
-    console.log("unsubscribeFromMessaging");
-    this.messagingService.deleteToken(this.user);
-  }
+  // unsubscribeFromMessaging() {
+  //   console.log("unsubscribeFromMessaging");
+  //   this.messagingService.deleteToken(this.user);
+  // }
 
   ngOnDestroy() {
-    if (this.userSubscription$$) this.userSubscription$$.unsubscribe();
-    if (this.tokenSubscription$$) this.tokenSubscription$$.unsubscribe();
+    // if (this.userSubscription$$) this.userSubscription$$.unsubscribe();
+    // if (this.tokenSubscription$$) this.tokenSubscription$$.unsubscribe();
   }
 }

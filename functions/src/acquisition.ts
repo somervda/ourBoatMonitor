@@ -56,18 +56,6 @@ export const iotBroker = functions.https.onRequest(
       let deviceId = undefined;
       let iotDataSource: IotDataSource;
       switch (userAgent[0].toUpperCase()) {
-        case "SIGFOX": {
-          iotDataSource = IotDataSource.SigFox;
-          deviceId = request.body.payload_fields.deviceId;
-          // SIG fox, you must add the "deviceId : {device}"  property to the to the payload_fields json
-          break;
-        }
-        case "HTTP-TTN": {
-          //statements;
-          iotDataSource = IotDataSource.TheThingsNetwork;
-          deviceId = request.body.dev_id;
-          break;
-        }
         case "CURL": {
           iotDataSource = IotDataSource.curl;
           //statements;

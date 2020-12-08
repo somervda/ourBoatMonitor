@@ -3,8 +3,6 @@ import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFirestoreModule } from "@angular/fire/firestore";
 import { AngularFirePerformanceModule } from "@angular/fire/performance";
-import { AngularFireMessagingModule } from "@angular/fire/messaging";
-// import { AngularFireStorageModule } from "@angular/fire/storage";
 import { AngularFireStorageModule } from "@angular/fire/storage";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
@@ -98,7 +96,6 @@ import { GoogleChartsModule } from "angular-google-charts";
     BrowserAnimationsModule,
     FormsModule,
     AppRoutingModule,
-    AngularFireMessagingModule,
     MatCheckboxModule,
     MatButtonModule,
     MatIconModule,
@@ -138,6 +135,7 @@ import { GoogleChartsModule } from "angular-google-charts";
     AngularFireStorageModule,
     ServiceWorkerModule.register("ngsw-worker.js", {
       enabled: environment.production,
+      registrationStrategy: "registerImmediately",
     }),
   ],
   providers: [],

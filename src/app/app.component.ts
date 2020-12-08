@@ -3,7 +3,6 @@ import { AuthService } from "./services/auth.service";
 import { SwUpdate } from "@angular/service-worker";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Observable, fromEvent, Subscription } from "rxjs";
-import { MessagingService } from "./services/messaging.service";
 
 @Component({
   selector: "app-root",
@@ -16,29 +15,15 @@ export class AppComponent implements OnInit, OnDestroy {
   onlineEvent$: Observable<Event>;
   offlineEvent$: Observable<Event>;
   subscriptions$$: Subscription[] = [];
-  showAlert = false;
-  msgBody = "";
-  msgTitle = "";
 
   constructor(
     public auth: AuthService,
     private swUpdate: SwUpdate,
     private snackBar: MatSnackBar,
-    private messagingService: MessagingService,
     private ref: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    this.messagingService.receiveMessage();
-    this.messagingService.currentMessage.subscribe(
-      (message) => {
-        this.showMessage(message);
-      },
-      (error) => {
-        console.error("message subscribe error:", error);
-      }
-    );
-
     // Determine if we are connected
     // See https://robinraju.dev/developer/2018-07-26-detecting-user-offline-in-angular/
     this.onlineEvent$ = fromEvent(window, "online");
@@ -82,37 +67,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   logout() {
     this.auth.signOut();
-  }
-
-  /**
-   * Code to extract title and body fields from the message object and display in the alert div.
-   *
-   * @param message the message object returned by a subscription to messaging
-   */
-  showMessage(message: object) {
-    if (message && message != null) {
-      try {
-        this.msgTitle = message["notification"]["title"];
-        this.msgBody = message["notification"]["body"];
-        this.showAlert = true;
-        // The change detection is very spooky with messages, it took forever
-        // to get this working and requires a manual detectChanges .
-        this.ref.detectChanges();
-      } catch (e) {
-        console.error(
-          "Message display error: ",
-          e,
-          " message: ",
-          JSON.stringify(message)
-        );
-      }
-    }
-  }
-
-  hideAlert() {
-    console.log("hideAlert");
-    this.showAlert = false;
-    this.ref.detectChanges();
   }
 
   ngOnDestroy(): void {

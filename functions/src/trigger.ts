@@ -78,10 +78,6 @@ function processTrigger(
             // send an email to the application users
             sendEmail(trigger, event, user);
             break;
-          case TriggerAction.Notification:
-            // Send a notification to each application user
-            sendNotification(trigger, event, user);
-            break;
           case TriggerAction.SMS:
             // Send a notification to each application user
             sendSMS(trigger, event, user);
@@ -114,29 +110,6 @@ function writeTriggerLog(
   };
   console.log("triggerlog to write", JSON.stringify(triggerlog));
   db.collection("triggerlogs").add(triggerlog);
-}
-
-/**
- * Send a FCM notification to a specific user
- * @param trigger Trigger that invoked this action
- * @param event IOT event document
- * @param user User receiving this notification
- */
-function sendNotification(trigger: Trigger, event: Event, user: User) {
-  // console.log("sendNotification user:", JSON.stringify(user));
-  if (user.deviceMessagingToken) {
-    const payload = {
-      notification: {
-        title: trigger.name + " for " + event.deviceName,
-        body: trigger.message,
-      },
-    };
-    admin
-      .messaging()
-      .sendToDevice(user.deviceMessagingToken, payload)
-      .then(() => console.log("Successful message"))
-      .catch((e) => console.error("Send message failed:", e));
-  }
 }
 
 /**

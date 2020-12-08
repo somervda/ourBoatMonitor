@@ -78,22 +78,6 @@
       >
         Send messages to this device?
       </div>
-      <div>
-        <button
-          mat-raised-button
-          (click)="subscribeToMessaging()"
-          *ngIf="!hasToken"
-        >
-          Subscribe
-        </button>
-        <button
-          mat-raised-button
-          (click)="unsubscribeFromMessaging()"
-          *ngIf="hasToken"
-        >
-          UnSubscribe
-        </button>
-      </div>
 
       <!-- Enter sms phone number -->
       <div

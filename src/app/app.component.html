@@ -134,17 +134,5 @@
     </ng-container>
   </mat-toolbar>
 
-  <div class="alert" *ngIf="showAlert">
-    <button
-      mat-raised-button
-      style="float: right; margin-bottom: 10px"
-      (click)="hideAlert()"
-    >
-      <span>Close</span>
-    </button>
-    <strong>{{ msgTitle }}</strong
-    ><br />{{ msgBody }}
-  </div>
-
   <router-outlet></router-outlet>
 </mat-sidenav-container>

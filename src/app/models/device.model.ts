@@ -16,8 +16,6 @@ export interface Device {
 }
 
 export enum IotDataSource {
-  "TheThingsNetwork" = 1,
-  "SigFox" = 2,
   "Direct" = 4,
   "Hologram" = 5,
   "curl" = 6,
@@ -30,16 +28,6 @@ export interface IotDataSourceInfoItem {
 }
 
 export const IotDataSourceInfo: IotDataSourceInfoItem[] = [
-  {
-    iotDataSource: IotDataSource.TheThingsNetwork,
-    name: "The Things Network",
-    nameShort: "TTN",
-  },
-  {
-    iotDataSource: IotDataSource.SigFox,
-    name: "SigFox",
-    nameShort: "SigFox",
-  },
   {
     iotDataSource: IotDataSource.Direct,
     name: "Direct internet connection from device",
