@@ -25,15 +25,17 @@ acc.set_odr(0)
 #  Get GPS data from pytrack board
 gc.collect()
 # gps = pytrackHelper.getGPS(py, 300)
-gps = pytrackHelper.getGPS(py, 10)
+gps = pytrackHelper.getGPS(py, 1)
 if (gps[0] is None or gps[1] is None):
-    print("Missing GPS data - nothing sent")
-if (gps[0] is not None and gps[1] is not None):
+    print("Missing GPS data ")
+# if (gps[0] is not None and gps[1] is not None):
     # Create a list of key value pairs to be
     # sent by LTE to hologram
     dataList = []
-    dataList.append(("lat", gps[0]))
-    dataList.append(("lng", gps[1]))
+    # dataList.append(("lat", gps[0]))
+    # dataList.append(("lng", gps[1]))
+    dataList.append(("lat", 0))
+    dataList.append(("lng", 0))
     dataList.append(("humidity", 95))
     gc.collect()
     # Connect to LTE and send the list of data items and hologram device key

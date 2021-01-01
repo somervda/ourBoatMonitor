@@ -21,6 +21,7 @@ export const iotBroker = functions.https.onRequest(
     console.log("Body: ", JSON.stringify(request.body));
 
     // Authentication header is stored as a firebase function config setting
+    // see https://firebase.google.com/docs/functions/config-env
     // i.e. firebase functions:config:set iotauthentication.header="Basic b3VyTG9yYTpwYXNzd29yZA=="
     // Change the authentication header value for your own implementation
     if (

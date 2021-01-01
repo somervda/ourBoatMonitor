@@ -10,6 +10,15 @@ import * as twilio from "twilio";
 import * as functions from "firebase-functions";
 import * as nodemailer from "nodemailer";
 
+// Note: Config settings see https://firebase.google.com/docs/functions/config-env  are used for
+// the following values
+// firebase functions:config:set iotauthentication.header="xxxxxxxxxxxxxxxxxxxxxxxxx"
+// firebase functions:config:set email.user="xxxxxxxxxxxxxxxxxxxxxx"
+// firebase functions:config:set email.password="xxxxxxxxxxxxxxxxxxxxxx"
+// firebase functions:config:set twilio.ssid="xxxxxxxxxxxxxxxxxxxxxxxxx"
+// firebase functions:config:set twilio.authtoken="xxxxxxxxxxxxxxxxxxxxxxxxx"
+// firebase functions:config:set twilio.phone="xxxxxxxxxxxxxxxxxx"
+
 export const eventTrigger = function (event: Event) {
   console.log("eventTrigger", JSON.stringify(event));
   event.applicationRefs.forEach((e) => {
