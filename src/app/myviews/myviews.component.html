@@ -4,7 +4,7 @@
     <div class="application" *ngIf="!appViewItem.viewId">
       {{ appViewItem.appName }}
     </div>
-    <div class="view" *ngIf="appViewItem.viewId" class="hangingindent">
+    <div *ngIf="appViewItem.viewId" class="hangingindent">
       <a
         [routerLink]="
           '/application/' +
@@ -15,7 +15,7 @@
         matTooltip="Click to go to view"
         >{{ appViewItem.viewName }}</a
       >
-      {{ appViewItem.viewDescription | truncate: 100 }}
+      <br />{{ appViewItem.viewDescription | truncate: 100 }}
     </div>
   </ng-container>
 </div>
