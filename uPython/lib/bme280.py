@@ -146,10 +146,10 @@ class BME280(object):
         #     sleep_time += 575 + (2300*(1 << self.humidity_mode))
         #     print("sleep_time", sleep_time)
 
-        # BME280 needs time to warm up to get accurite readings
-        # but I changed this to 10 seconds, commented out values seem too much (ends up being about 80 sec)
-        sleep_time = 10000
-        print("sleep_time", sleep_time)
+        # BME280 needs time to warm up to get accurate readings
+        # but I changed this to 5 seconds, commented out values seem too much (ends up being about 80 sec)
+        sleep_time = 5000
+        print("sleep_time ms: ", sleep_time)
         time.sleep(sleep_time/1000)
         while (unpack('<H',
                       self.i2c.readfrom_mem(

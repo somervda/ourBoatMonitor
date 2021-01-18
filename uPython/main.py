@@ -16,21 +16,29 @@ from ADS1115 import ADS1115
 # ***********************************************************
 pycom.heartbeat(False)
 
-print("machine.reset_cause()", machine.reset_cause())
+# print("machine.reset_cause()", machine.reset_cause())
 
 # Flags to switch on sensors to collect
 includeGPS = True
 includeBME280 = True
-includeADS1115 = False
+includeADS1115 = True
+
+# Seconds to spend in low power sleep
+DEEP_SLEEP_SECONDS = 3600
+
+# Voltage divider adjustment for ADC0
+# Send the true voltage to the backend
+adc0VRatio = 0.0909
 
 #  flag to go into sleep loop (Turn off for testing)
 doSleep = True
+
+doBlink = True
 
 py = Pytrack()
 acc = LIS2HH12()
 
 print("")
-DEEP_SLEEP_SECONDS = 600
 
 # Set deep sleep parameters
 py.setup_int_wake_up(True, False)
@@ -72,7 +80,8 @@ if includeBME280:
 #  Include ADS1115 sensor for house battery voltage and bilge water level switch settings
 if includeADS1115:
     adc = ADS1115(i2c, address=0x48)
-    dataList.append(("ADC0", adc.get_voltage(0)))
+    print("adc.get_voltage(0)", adc.get_voltage(0))
+    dataList.append(("ADC0", adc.get_voltage(0)/adc0VRatio))
     dataList.append(("ADC1", adc.get_voltage(1)))
 
 # Turn off extra i2c devices before deep sleep
