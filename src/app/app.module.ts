@@ -130,8 +130,8 @@ import { GoogleChartsModule } from "angular-google-charts";
     AngularFirePerformanceModule,
     AngularFireAuthModule,
     // Allow offline operations - useful when used in combination with PWA functionality
-    // AngularFirestoreModule,
-    AngularFirestoreModule.enablePersistence(),
+    AngularFirestoreModule,
+    // AngularFirestoreModule.enablePersistence(),
     AngularFireStorageModule,
     ServiceWorkerModule.register("ngsw-worker.js", {
       enabled: environment.production,
