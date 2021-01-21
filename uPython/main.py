@@ -16,12 +16,13 @@ from ADS1115 import ADS1115
 # ***********************************************************
 pycom.heartbeat(False)
 
-# print("machine.reset_cause()", machine.reset_cause())
-
 # Flags to switch on sensors to collect
 includeGPS = True
 includeBME280 = True
 includeADS1115 = True
+
+#  Flag to send data via LTE
+sendData = True
 
 # Seconds to spend in low power sleep
 DEEP_SLEEP_SECONDS = 3600
@@ -32,8 +33,6 @@ adc0VRatio = 0.0909
 
 #  flag to go into sleep loop (Turn off for testing)
 doSleep = True
-
-doBlink = True
 
 py = Pytrack()
 acc = LIS2HH12()
@@ -52,7 +51,17 @@ gc.collect()
 dataList = []
 
 # Get the Lithium Ion (Li-ion) battery voltage
-dataList.append(("LIVoltage", py.read_battery_voltage()))
+LIVoltage = py.read_battery_voltage()
+dataList.append(("LIVoltage", LIVoltage))
+print("LIVoltage", LIVoltage)
+
+if LIVoltage < 4.4:
+    # Running on battery so suppress LED blinks
+    for y in range(0, 5):
+        pytrackHelper.blink(.1,  0x00ff00)  # blink green
+
+    pytrackHelper.doBlink = False
+    lteHelper.doBlink = False
 
 #  Include GPS reading
 if includeGPS:
@@ -64,6 +73,12 @@ if includeGPS:
         # sent by LTE to hologram
         dataList.append(("lat", gps[0]))
         dataList.append(("lng", gps[1]))
+    else:
+        dataList.append(("lat", 0))
+        dataList.append(("lng", 0))
+else:
+    dataList.append(("lat", 0))
+    dataList.append(("lng", 0))
 
 # Use i2c bus 1 for additional i2c devices (Otherwise using Bus 0 messes up the deep sleep processing)
 i2c = I2C(1, I2C.MASTER, pins=('P10', 'P9'), baudrate=100000)
@@ -75,7 +90,10 @@ if includeBME280:
     dataList.append(("Pressure", p))
     dataList.append(("Temperature", t))
     dataList.append(("Humidity", h))
-
+else:
+    dataList.append(("Pressure", 0))
+    dataList.append(("Temperature", 0))
+    dataList.append(("Humidity", 0))
 
 #  Include ADS1115 sensor for house battery voltage and bilge water level switch settings
 if includeADS1115:
@@ -83,16 +101,23 @@ if includeADS1115:
     print("adc.get_voltage(0)", adc.get_voltage(0))
     dataList.append(("ADC0", adc.get_voltage(0)/adc0VRatio))
     dataList.append(("ADC1", adc.get_voltage(1)))
+else:
+    dataList.append(("ADC0", -99))
+    dataList.append(("ADC1", -99))
 
 # Turn off extra i2c devices before deep sleep
 i2c.deinit()
 
+print("dataList:", dataList)
+
 # Connect to LTE and send the list of data items and hologram device key
-lteHelper.sendData(dataList, "lQ6Gjc$n")
+if sendData:
+    lteHelper.sendData(dataList, "lQ6Gjc$n")
 
 if doSleep:
     # Go into low power sleep
     print("Deep sleep for %d seconds..." % (DEEP_SLEEP_SECONDS))
+
     time.sleep(1)
     py.setup_sleep(DEEP_SLEEP_SECONDS)
     py.go_to_sleep(gps=False)

@@ -1,21 +1,27 @@
 <app-subheading prompt="My Views" matIcon="table_chart"></app-subheading>
 <div class="page-container" style="min-width: 380px">
-  <ng-container *ngFor="let appViewItem of appViewTree">
-    <div class="application" *ngIf="!appViewItem.viewId">
-      {{ appViewItem.appName }}
-    </div>
-    <div *ngIf="appViewItem.viewId" class="hangingindent">
-      <a
-        [routerLink]="
-          '/application/' +
-          appViewItem.appId +
-          '/myviewer/' +
-          appViewItem.viewId
-        "
-        matTooltip="Click to go to view"
-        >{{ appViewItem.viewName }}</a
+  <div class="grid321">
+    <div *ngFor="let appViewItem of appViewTree">
+      <mat-card
+        *ngIf="appViewItem.viewId"
+        style="min-height: 70px; max-height: 70px; cursor: pointer"
       >
-      <br />{{ appViewItem.viewDescription | truncate: 100 }}
+        <mat-card-content
+          [routerLink]="
+            '/application/' +
+            appViewItem.appId +
+            '/myviewer/' +
+            appViewItem.viewId
+          "
+          [matTooltip]="'Click to go to ' + appViewItem.viewName"
+        >
+          <h3>
+            {{ appViewItem.viewName }}
+            <span style="font-weight: 200">[{{ appViewItem.appName }}]</span>
+          </h3>
+          <p>{{ appViewItem.viewDescription | truncate: 70 }}</p>
+        </mat-card-content>
+      </mat-card>
     </div>
-  </ng-container>
+  </div>
 </div>

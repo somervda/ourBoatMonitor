@@ -42,6 +42,30 @@ body {
   }
 }
 
+@media (min-width: 800px) {
+  .grid321 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
+  }
+}
+
+@media (min-width: 531px) and (max-width: 799px) {
+  .grid321 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+  }
+}
+
+@media (max-width: 530px) {
+  .grid321 {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 10px;
+  }
+}
+
 .prompt {
   font-weight: 600;
 }

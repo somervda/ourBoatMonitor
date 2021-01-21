@@ -50,12 +50,12 @@ export class MyviewsComponent implements OnInit, OnDestroy {
         this.views$$ = this.viewService
           .findAll(application.id, 100)
           .subscribe((views) => {
-            if (views.length > 0) {
-              this.appViewTree.push({
-                appId: application.id,
-                appName: application.name,
-              });
-            }
+            // if (views.length > 0) {
+            //   this.appViewTree.push({
+            //     appId: application.id,
+            //     appName: application.name,
+            //   });
+            // }
             views.map((view) => {
               // Only push view info that isn't in the appViewTree
               if (

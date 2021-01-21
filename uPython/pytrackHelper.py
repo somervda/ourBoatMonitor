@@ -22,12 +22,16 @@ from L76GNSS import L76GNSS
 from pytrack import Pytrack
 import struct
 
+# Override blinking from outside library
+doBlink = True
+
 
 def blink(seconds, rgb):
-    # print("blink", rgb)
-    pycom.rgbled(rgb)
+    if doBlink:
+        pycom.rgbled(rgb)
     time.sleep(seconds/2)
-    pycom.rgbled(0x000000)  # off
+    if doBlink:
+        pycom.rgbled(0x000000)  # off
     time.sleep(seconds/2)
 
 
