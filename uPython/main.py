@@ -55,14 +55,6 @@ LIVoltage = py.read_battery_voltage()
 dataList.append(("LIVoltage", LIVoltage))
 print("LIVoltage", LIVoltage)
 
-if LIVoltage < 4.4:
-    # Running on battery so suppress LED blinks
-    for y in range(0, 5):
-        pytrackHelper.blink(.1,  0x00ff00)  # blink green
-
-    pytrackHelper.doBlink = False
-    lteHelper.doBlink = False
-
 #  Include GPS reading
 if includeGPS:
     print("Getting GPS...")

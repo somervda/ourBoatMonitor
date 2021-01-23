@@ -48,9 +48,13 @@ export class MyviewerComponent implements OnInit, OnDestroy {
     this.aid = this.route.snapshot.paramMap.get("aid");
     // Load up the devices array  devices associated with the application
     // Used for resolving device names
-    this.devices$$ = await this.deviceService.findAll(100).subscribe((devices) => {
-      devices.forEach((device) => this.devices.push({ id: device.id, name: device.name }));
-    });
+    this.devices$$ = await this.deviceService
+      .findAll(100)
+      .subscribe((devices) => {
+        devices.forEach((device) =>
+          this.devices.push({ id: device.id, name: device.name })
+        );
+      });
 
     this.chartProcessor();
   }
@@ -65,6 +69,12 @@ export class MyviewerComponent implements OnInit, OnDestroy {
    */
   async chartProcessor() {
     this.showChart = false;
+    console.log(
+      " chartProcessor this.viewType:",
+      this.viewType,
+      " this.maxRows",
+      this.maxRows
+    );
     // Set the chart type - see https://www.tutorialspoint.com/angular_googlecharts/index.htm
     switch (this.viewType) {
       case ViewType.scatter: {
@@ -107,8 +117,9 @@ export class MyviewerComponent implements OnInit, OnDestroy {
 
     this.events$$ = await this.events$.subscribe(async (events) => {
       await events.map(async (event) => {
-        const deviceName = this.devices.find((device) => device.id == event.deviceRef.id)
-          ?.name;
+        const deviceName = this.devices.find(
+          (device) => device.id == event.deviceRef.id
+        )?.name;
         if (!series.includes(deviceName)) {
           series.push(deviceName);
         }
@@ -119,15 +130,19 @@ export class MyviewerComponent implements OnInit, OnDestroy {
           value: event.value,
         });
       });
-      this.rawToChartData(series, rawData);
+      await this.rawToChartData(series, rawData);
+      if (this.events$$) {
+        this.events$$.unsubscribe();
+      }
       this.showChart = true;
     });
   }
 
-  rawToChartData(
+  async rawToChartData(
     series: string[],
     rawData: { timestamp: Date; deviceName: string; value: number }[]
   ) {
+    console.log("rawToChartData:", rawData);
     // Order the rawData by deviceName, this will result in line charts
     // adding lines between all points for a particular series (Series is represented as a column of data)
     rawData.sort((a, b) => a.deviceName.localeCompare(b.deviceName));
