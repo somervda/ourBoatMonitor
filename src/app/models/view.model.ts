@@ -6,6 +6,8 @@ export interface View {
   description: string;
   sensorRef: DocumentReference;
   viewType: ViewType;
+  iconURL?: string;
+  evalExpression?: string;
 }
 
 /**
