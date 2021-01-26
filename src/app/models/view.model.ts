@@ -7,7 +7,10 @@ export interface View {
   sensorRef: DocumentReference;
   viewType: ViewType;
   iconURL?: string;
-  evalExpression?: string;
+  // Offset to apply to the event value
+  offset?: number;
+  // Scaling factor to apply to the offset result
+  scale?: number;
 }
 
 /**

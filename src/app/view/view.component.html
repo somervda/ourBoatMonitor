@@ -68,38 +68,6 @@
         </mat-error>
       </mat-form-field>
 
-
-
-      <div style="font-size: 11px;font-weight: 400;color: rgba(104, 104, 104, 0.788);" >View Icon</div>
-      <div>
-        <!-- <img class="photoURL" src="{{ (user$ | async)?.photoURL }}" /> -->
-        <!-- {{ (user$ | async)?.photoURL }} -->
-  
-        <div>
-          <button
-            class="add-button"
-            mat-raised-button
-            style="margin: 4px;font-weight: 400;font-size: 14px;padding: 4px;line-height: normal;"
-            (click)="fileUpload.click()"
-          >
-            Upload Icon
-          </button>
-          <img  *ngIf="view.iconURL != ''" [src]="view.iconURL" style="height: 32px;width:32px;" />
-            {{view.iconURL}}
-          <input
-            type="file"
-            #fileUpload
-            hidden="true"
-            (change)="onUploadFile($event)"
-            multiple="false"
-            accept="image/*"
-          />
-        </div>
-        <mat-error *ngIf="fileUploadMsg!=''" style="font-size: 12px;">
-          {{ fileUploadMsg }}
-        </mat-error>
-      </div>
-
       <div class="grid50percent">
         <div>
           <mat-form-field class="full-width">
@@ -145,6 +113,87 @@
             </mat-error>
           </mat-form-field>
         </div>
+
+        <div>
+          <mat-form-field class="full-width">
+            <mat-label>Offset value by...</mat-label>
+            <input
+              matInput
+              formControlName="offset"
+              (change)="onFieldUpdate('offset', 'number')"
+              placeholder="0.0"
+            />
+            <mat-error *ngIf="viewForm.controls['offset'].hasError('pattern')">
+              Offset must be a float of blank.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field class="full-width">
+            <mat-label>Scale value by...</mat-label>
+            <input
+              matInput
+              formControlName="scale"
+              (change)="onFieldUpdate('scale', 'number')"
+              placeholder="0.0"
+            />
+            <mat-error *ngIf="viewForm.controls['scale'].hasError('pattern')">
+              Scale must be a float of blank.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div
+        style="
+          font-size: 11px;
+          font-weight: 400;
+          color: rgba(104, 104, 104, 0.788);
+          margin-bottom: 4px;
+        "
+      >
+        View Icon (32x32 , 20K or less)
+      </div>
+      <div>
+        <!-- <img class="photoURL" src="{{ (user$ | async)?.photoURL }}" /> -->
+        <!-- {{ (user$ | async)?.photoURL }} -->
+
+        <div>
+          <button
+            class="add-button"
+            mat-raised-button
+            style="
+              margin: 4px;
+              margin-right: 10px;
+
+              font-weight: 400;
+              font-size: 14px;
+              padding: 4px;
+              line-height: normal;
+              vertical-align: top;
+            "
+            (click)="fileUpload.click()"
+          >
+            Upload Icon
+          </button>
+          <img
+            *ngIf="view.iconURL && view.iconURL != ''"
+            [src]="view.iconURL"
+            style="height: 32px; width: 32px"
+          />
+          <input
+            type="file"
+            #fileUpload
+            hidden="true"
+            (change)="onUploadFile($event)"
+            multiple="false"
+            accept="image/*"
+          />
+        </div>
+        <mat-error *ngIf="fileUploadMsg != ''" style="font-size: 12px">
+          {{ fileUploadMsg }}
+        </mat-error>
       </div>
     </fieldset>
 

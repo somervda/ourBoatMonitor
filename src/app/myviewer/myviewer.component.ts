@@ -124,10 +124,20 @@ export class MyviewerComponent implements OnInit, OnDestroy {
           series.push(deviceName);
         }
 
+        // Calculate view value by applying any view offset and scaling factor i.e. C -> F is offset = 17.77 scale = 1.8
+        let value = event.value;
+        if (this.view.offset) {
+          value += this.view.offset;
+        }
+
+        if (this.view.scale) {
+          value *= this.view.scale;
+        }
+
         rawData.push({
           timestamp: (<firebase.firestore.Timestamp>event.timestamp).toDate(),
           deviceName: deviceName,
-          value: event.value,
+          value: value,
         });
       });
       await this.rawToChartData(series, rawData);

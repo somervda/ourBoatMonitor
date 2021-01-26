@@ -21,6 +21,7 @@ export class MyviewsComponent implements OnInit, OnDestroy {
     viewId?: string;
     viewName?: string;
     viewDescription?: string;
+    iconURL?: string;
   }[] = [];
 
   constructor(
@@ -68,6 +69,7 @@ export class MyviewsComponent implements OnInit, OnDestroy {
                   appName: application.name,
                   viewId: view.id,
                   viewName: view.name,
+                  iconURL: view.iconURL,
                   viewDescription: view.description,
                 });
               }

@@ -46,7 +46,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     private helper: HelperService,
     private applicationService: ApplicationService,
     private sensorService: SensorService,
-    private storage: AngularFireStorage,
+    private storage: AngularFireStorage
   ) {}
 
   ngOnInit() {
@@ -103,6 +103,11 @@ export class ViewComponent implements OnInit, OnDestroy {
       ],
       viewType: [this.view.viewType, [Validators.required]],
       sensorRef: [this.view.sensorRef, [Validators.required]],
+      offset: [
+        this.view.offset,
+        [Validators.pattern("[+-]?([0-9]*[.])?[0-9]+")],
+      ],
+      scale: [this.view.scale, [Validators.pattern("[+-]?([0-9]*[.])?[0-9]+")]],
     });
 
     // Mark all fields as touched to view validation on initial entry to the fields
@@ -116,7 +121,13 @@ export class ViewComponent implements OnInit, OnDestroy {
   onCreate() {
     console.log("create view", this.aid, this.view);
     for (const field in this.viewForm.controls) {
-      this.view[field] = this.viewForm.get(field).value;
+      if (field == "offset" || field == "scale") {
+        if (this.viewForm.get(field).value) {
+          this.view[field] = Number(this.viewForm.get(field).value);
+        }
+      } else {
+        this.view[field] = this.viewForm.get(field).value;
+      }
     }
     this.viewService
       .create(this.aid, this.view)
@@ -167,6 +178,9 @@ export class ViewComponent implements OnInit, OnDestroy {
       this.crudAction != Crud.Delete
     ) {
       let newValue = this.viewForm.get(fieldName).value;
+      if (toType && toType == "number") {
+        newValue = Number(newValue);
+      }
       console.log("update:", fieldName, newValue);
       this.viewService.fieldUpdate(this.aid, this.view.id, fieldName, newValue);
     }
@@ -234,9 +248,15 @@ export class ViewComponent implements OnInit, OnDestroy {
         .then((t) => {
           this.getStorageUrl(fileToUpload.name)
             .toPromise()
-            .then((url) =>
-              this.viewService.fieldUpdate(this.aid,this.view.id, "iconURL", url)
-            );
+            .then((url) => {
+              this.viewService.fieldUpdate(
+                this.aid,
+                this.view.id,
+                "iconURL",
+                url
+              );
+              this.view.iconURL = url;
+            });
           this.showSpinner = false;
         })
         .catch((e) => (this.showSpinner = false));

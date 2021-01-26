@@ -6,12 +6,33 @@
         *ngIf="appViewItem.viewId"
         style="min-height: 70px; max-height: 70px"
       >
-        <mat-card-header>
-          <span mat-card-avatar>
+        <mat-card-header
+          style="cursor: pointer"
+          [routerLink]="
+            '/application/' +
+            appViewItem.appId +
+            '/myviewer/' +
+            appViewItem.viewId
+          "
+          [matTooltip]="'Click to go to ' + appViewItem.viewName"
+        >
+          <!-- <span mat-card-avatar>
             <img
               src="../../assets/images/humidity.jpg"
               style="width: 32px; height: 32px"
-          /></span>
+          /></span> -->
+          <span mat-card-avatar>
+            <img
+              *ngIf="appViewItem.iconURL && appViewItem.iconURL != ''"
+              [src]="appViewItem.iconURL"
+              style="height: 32px; width: 32px; float: right"
+            />
+            <img
+              *ngIf="!appViewItem.iconURL || appViewItem.iconURL == ''"
+              src="../../assets/images/viewIcon.jpg"
+              style="height: 32px; width: 32px; float: right"
+            />
+          </span>
           <mat-card-title>{{ appViewItem.viewName }}</mat-card-title>
         </mat-card-header>
         <mat-card-content
