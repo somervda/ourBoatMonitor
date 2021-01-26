@@ -11,6 +11,7 @@ import { ApplicationService } from "../services/application.service";
 import { HelperService } from "../services/helper.service";
 import { SensorService } from "../services/sensor.service";
 import { ViewService } from "../services/view.service";
+import { AngularFireStorage } from "@angular/fire/storage";
 
 @Component({
   selector: "app-view",
@@ -25,6 +26,9 @@ export class ViewComponent implements OnInit, OnDestroy {
   crudAction: Crud;
   // Declare an instance of crud enum to use for checking crudAction value
   Crud = Crud;
+
+  showSpinner = false;
+  fileUploadMsg = "";
 
   viewForm: FormGroup;
   view$$: Subscription;
@@ -41,7 +45,8 @@ export class ViewComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private helper: HelperService,
     private applicationService: ApplicationService,
-    private sensorService: SensorService
+    private sensorService: SensorService,
+    private storage: AngularFireStorage,
   ) {}
 
   ngOnInit() {
@@ -212,6 +217,37 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   getSensorRef(id: string) {
     return this.helper.docRef("devicetypes/" + this.dtid + "/sensors/" + id);
+  }
+
+  onUploadFile(event) {
+    console.log("onUploadFile", event);
+    const fileToUpload = event.target.files[0];
+    console.log("fileToUpload", fileToUpload.size);
+    if (fileToUpload.size > 20000) {
+      this.fileUploadMsg =
+        " File is too large to upload. Icon image files must be less than 20KB";
+    } else {
+      this.showSpinner = true;
+      this.fileUploadMsg = "";
+      const task = this.storage
+        .upload(`viewIcons/${this.view.id}/${fileToUpload.name}`, fileToUpload)
+        .then((t) => {
+          this.getStorageUrl(fileToUpload.name)
+            .toPromise()
+            .then((url) =>
+              this.viewService.fieldUpdate(this.aid,this.view.id, "iconURL", url)
+            );
+          this.showSpinner = false;
+        })
+        .catch((e) => (this.showSpinner = false));
+    }
+  }
+
+  getStorageUrl(filename: string): Observable<any> {
+    // console.log("getStorageUrl", filename);
+    return this.storage
+      .ref(`viewIcons/${this.view.id}/${filename}`)
+      .getDownloadURL();
   }
 
   ngOnDestroy() {
