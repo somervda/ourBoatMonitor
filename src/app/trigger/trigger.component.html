@@ -21,22 +21,64 @@
 <div class="page-container">
   <form class="standard-form" [formGroup]="triggerForm">
     <fieldset [disabled]="crudAction == Crud.Delete">
+      <div class="grid50percent">
+        <div>
+          <mat-form-field class="full-width">
+            <input
+              matInput
+              formControlName="name"
+              (change)="onFieldUpdate('name')"
+              placeholder="Name"
+              required
+            />
+            <mat-error
+              *ngIf="triggerForm.controls['name'].hasError('required')"
+            >
+              Name is required.
+            </mat-error>
+            <mat-error
+              *ngIf="triggerForm.controls['name'].hasError('minlength')"
+            >
+              Name must be at least 3 characters long.
+            </mat-error>
+            <mat-error
+              *ngIf="triggerForm.controls['name'].hasError('maxlength')"
+            >
+              Name must be no more than 35 characters long.
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+          <div class="mat-formfield-prompt-lookalike">State</div>
+          <mat-checkbox
+            formControlName="active"
+            (click)="onFieldUpdate('active', 'Toggle')"
+            labelPosition="before"
+            matTooltip="Trigger is active"
+            style="margin-bottom: 5px"
+            >Active</mat-checkbox
+          >
+        </div>
+      </div>
+
       <mat-form-field class="full-width">
-        <input
-          matInput
-          formControlName="name"
-          (change)="onFieldUpdate('name')"
-          placeholder="Name"
-          required
-        />
-        <mat-error *ngIf="triggerForm.controls['name'].hasError('required')">
-          Name is required.
-        </mat-error>
-        <mat-error *ngIf="triggerForm.controls['name'].hasError('minlength')">
-          Name must be at least 3 characters long.
-        </mat-error>
-        <mat-error *ngIf="triggerForm.controls['name'].hasError('maxlength')">
-          Name must be no more than 35 characters long.
+        <mat-label>Sensor *</mat-label>
+        <mat-select
+          formControlName="sensorRef"
+          (selectionChange)="onFieldUpdate('sensorRef')"
+          [compareWith]="objectComparisonFunction"
+        >
+          <mat-option
+            *ngFor="let sensor of sensors"
+            [value]="getSensorRef(sensor.id)"
+          >
+            {{ sensor.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="triggerForm.controls['sensorRef'].hasError('required')"
+        >
+          Sensor is required.
         </mat-error>
       </mat-form-field>
 
@@ -94,115 +136,120 @@
         </mat-error>
       </mat-form-field>
 
-      <div class="grid50percent">
-        <div>
-          <mat-form-field class="full-width">
-            <mat-label>Trigger Action *</mat-label>
-            <mat-select
-              formControlName="triggerAction"
-              (selectionChange)="onFieldUpdate('triggerAction')"
-            >
-              <mat-option
-                *ngFor="let triggerActionInfoItem of TriggerActionInfo"
-                [value]="triggerActionInfoItem.value"
+      <mat-card>
+        <div class="grid50percent">
+          <div>
+            <mat-form-field class="full-width">
+              <mat-label>Action *</mat-label>
+              <mat-select
+                formControlName="triggerAction"
+                (selectionChange)="onFieldUpdate('triggerAction')"
               >
-                {{ triggerActionInfoItem.name }}
-              </mat-option>
-            </mat-select>
-            <mat-error
-              *ngIf="triggerForm.controls['triggerAction'].hasError('required')"
-            >
-              Action is required.
-            </mat-error>
-          </mat-form-field>
-        </div>
-
-        <div>
-          <mat-form-field class="full-width">
-            <mat-label>Sensor *</mat-label>
-            <mat-select
-              formControlName="sensorRef"
-              (selectionChange)="onFieldUpdate('sensorRef')"
-              [compareWith]="objectComparisonFunction"
-            >
-              <mat-option
-                *ngFor="let sensor of sensors"
-                [value]="getSensorRef(sensor.id)"
+                <mat-option
+                  *ngFor="let triggerActionInfoItem of TriggerActionInfo"
+                  [value]="triggerActionInfoItem.value"
+                >
+                  {{ triggerActionInfoItem.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="
+                  triggerForm.controls['triggerAction'].hasError('required')
+                "
               >
-                {{ sensor.name }}
-              </mat-option>
-            </mat-select>
-            <mat-error
-              *ngIf="triggerForm.controls['sensorRef'].hasError('required')"
-            >
-              Sensor is required.
-            </mat-error>
-          </mat-form-field>
-        </div>
+                Action is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-        <div>
-          <mat-form-field class="full-width">
-            <mat-label>Minimum value for trigger</mat-label>
-            <input
-              matInput
-              formControlName="triggerRangeMin"
-              (change)="onFieldUpdate('triggerRangeMin')"
-              placeholder="0.0"
-              required
-            />
-            <mat-error
-              *ngIf="
-                triggerForm.controls['triggerRangeMin'].hasError('required')
-              "
-            >
-              Minimum value is required.
-            </mat-error>
-            <mat-error
-              *ngIf="
-                triggerForm.controls['triggerRangeMin'].hasError('pattern')
-              "
-            >
-              Minimum value must be numeric.
-            </mat-error>
-          </mat-form-field>
-        </div>
+          <div>
+            <mat-form-field class="full-width">
+              <mat-label>Action Delay (Minimum time between actions)</mat-label>
+              <mat-select
+                formControlName="delayBetweenActions"
+                (selectionChange)="
+                  onFieldUpdate('delayBetweenActions', 'Number')
+                "
+              >
+                <mat-option [value]="0">0</mat-option>
+                <mat-option [value]="3600">1 Hour</mat-option>
+                <mat-option [value]="43200">12 Hours</mat-option>
+                <mat-option [value]="86400">1 Day</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
 
-        <div>
-          <mat-form-field class="full-width">
-            <mat-label>Maximum value for trigger</mat-label>
-            <input
-              matInput
-              formControlName="triggerRangeMax"
-              (change)="onFieldUpdate('triggerRangeMax')"
-              placeholder="0.0"
-              required
-            />
-            <mat-error
-              *ngIf="
-                triggerForm.controls['triggerRangeMax'].hasError('required')
-              "
-            >
-              Maximum value is required.
-            </mat-error>
-            <mat-error
-              *ngIf="
-                triggerForm.controls['triggerRangeMax'].hasError('pattern')
-              "
-            >
-              Maximum value must be numeric.
-            </mat-error>
-          </mat-form-field>
-        </div>
+          <div>
+            <div class="mat-formfield-prompt-lookalike">
+              Last time the trigger was actioned
+            </div>
+            <div *ngIf="trigger.lastActionTimestamp">
+              {{ trigger.lastActionTimestamp.toDate() }}
+            </div>
+            <div *ngIf="!trigger.lastActionTimestamp">N/A</div>
+            <br />
+          </div></div
+      ></mat-card>
 
-        <div>
-          <mat-checkbox
-            formControlName="active"
-            (click)="onFieldUpdate('active', 'Toggle')"
-            labelPosition="before"
-            >Trigger Is Active?</mat-checkbox
-          >
-        </div>
-      </div>
+      <mat-card>
+        <div class="grid50percent">
+          <div>
+            <mat-form-field>
+              <mat-label>Minimum value for trigger</mat-label>
+              <input
+                matInput
+                formControlName="triggerRangeMin"
+                (change)="onFieldUpdate('triggerRangeMin')"
+                placeholder="0.0"
+                required
+                style="text-align: right"
+              />
+              <mat-error
+                *ngIf="
+                  triggerForm.controls['triggerRangeMin'].hasError('required')
+                "
+              >
+                Minimum value is required.
+              </mat-error>
+              <mat-error
+                *ngIf="
+                  triggerForm.controls['triggerRangeMin'].hasError('pattern')
+                "
+              >
+                Minimum value must be numeric.
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field>
+              <mat-label>Maximum value for trigger</mat-label>
+              <input
+                matInput
+                formControlName="triggerRangeMax"
+                (change)="onFieldUpdate('triggerRangeMax')"
+                placeholder="0.0"
+                required
+                style="text-align: right"
+              />
+              <mat-error
+                *ngIf="
+                  triggerForm.controls['triggerRangeMax'].hasError('required')
+                "
+              >
+                Maximum value is required.
+              </mat-error>
+              <mat-error
+                *ngIf="
+                  triggerForm.controls['triggerRangeMax'].hasError('pattern')
+                "
+              >
+                Maximum value must be numeric.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div></mat-card
+      >
     </fieldset>
 
     <br />

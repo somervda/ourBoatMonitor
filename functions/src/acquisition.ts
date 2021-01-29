@@ -250,10 +250,10 @@ async function writeEvent(
   // Match up the sensor definition with the data in the requestBody data, and write an event
   // for each matching sensor
   sensors.forEach(async (sensor) => {
-    if (getBodyField(requestBody, sensor.acquisitionMapValue)) {
+    const value = getBodyField(requestBody, sensor.acquisitionMapValue);
+    if (typeof value != "undefined") {
       // Value property exists for the sensor, we can write an event
       // console.log("Sensor found:", sensor.name);
-      const value = getBodyField(requestBody, sensor.acquisitionMapValue);
 
       // if device has gps sensor and lat/lng is available use those
       // values rather than the device default location

@@ -10,8 +10,13 @@ export interface Trigger {
   triggerRangeMax: number;
   message: string;
   triggerAction: TriggerAction;
-  // TargetRef is a user or usergroup
-  targetRef?: admin.firestore.DocumentReference;
+  // Governor on how often alerts can be sent
+  // in seconds. If a trigger fires and the delay
+  // period has not elapsed since the last trigger
+  // then no alert is sent.
+  delayBetweenActions?: number;
+  // Last time the trigger resulted in the action
+  lastActionTimestamp?: admin.firestore.Timestamp;
 }
 
 /**

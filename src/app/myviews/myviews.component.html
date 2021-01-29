@@ -16,21 +16,16 @@
           "
           [matTooltip]="'Click to go to ' + appViewItem.viewName"
         >
-          <!-- <span mat-card-avatar>
-            <img
-              src="../../assets/images/humidity.jpg"
-              style="width: 32px; height: 32px"
-          /></span> -->
           <span mat-card-avatar>
             <img
               *ngIf="appViewItem.iconURL && appViewItem.iconURL != ''"
               [src]="appViewItem.iconURL"
-              style="height: 32px; width: 32px; float: right"
+              class="viewer-icon"
             />
             <img
               *ngIf="!appViewItem.iconURL || appViewItem.iconURL == ''"
               src="../../assets/images/viewIcon.jpg"
-              style="height: 32px; width: 32px; float: right"
+              class="viewer-icon"
             />
           </span>
           <mat-card-title>{{ appViewItem.viewName }}</mat-card-title>
@@ -43,12 +38,8 @@
             '/myviewer/' +
             appViewItem.viewId
           "
-          [matTooltip]="'Click to go to ' + appViewItem.viewName"
+          [matTooltip]="'Click to go to ' + appViewItem.viewName + ' viewer'"
         >
-          <!-- <h3>
-            {{ appViewItem.viewName }}
-            <span style="font-weight: 200">[{{ appViewItem.appName }}]</span>
-          </h3> -->
           {{ appViewItem.viewDescription | truncate: 70 }}
         </mat-card-content>
       </mat-card>

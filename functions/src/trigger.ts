@@ -25,7 +25,7 @@ export const eventTrigger = function (event: Event) {
     e.get()
       .then((a) => {
         const application: Application = <Application>{ id: a.id, ...a.data() };
-        console.log("appRef:", JSON.stringify(application));
+        // console.log("appRef:", JSON.stringify(application));
         processTriggers(event, application);
       })
       .catch();
@@ -72,33 +72,58 @@ function processTrigger(
   application: Application,
   trigger: Trigger
 ) {
-  // Process the trigger action, note a log is always done
-  writeTriggerLog(event, application, trigger);
+  // Check to see that trigger delayBetweenActions governance is
+  // Meet before processing the trigger (To stop too many messages being sent and filling someones SMS or mailbox)
+  let suppressAction = false;
+  if (trigger.delayBetweenActions && trigger.lastActionTimestamp) {
+    let secondsDiff =
+      admin.firestore.Timestamp.fromDate(new Date()).seconds -
+      trigger.lastActionTimestamp.seconds;
+    // console.log(
+    //   "Trigger action check Diff:",
+    //   secondsDiff,
+    //   "delayBetweenActions:",
+    //   trigger.delayBetweenActions,
+    //   " Now:",
+    //   admin.firestore.Timestamp.fromDate(new Date()).seconds,
+    //   " lastActionTimestamp:",
+    //   trigger.lastActionTimestamp.seconds
+    // );
+    if (secondsDiff < trigger.delayBetweenActions) {
+      suppressAction = true;
+      console.log("Trigger action suppressed:", secondsDiff);
+    }
+  }
+  if (!suppressAction) {
+    // Process the trigger action, note a log is always done
+    writeTriggerLog(event, application, trigger);
 
-  //  The following actions are performed for each application user
-  application.userRefs.forEach((userRef) => {
-    userRef
-      .get()
-      .then((userSnap) => {
-        const user = <User>userSnap.data();
-        //  Perform trigger action
-        switch (trigger.triggerAction) {
-          case TriggerAction.eMail:
-            // send an email to the application users
-            sendEmail(trigger, event, user);
-            break;
-          case TriggerAction.SMS:
-            // Send a notification to each application user
-            sendSMS(trigger, event, user);
-            break;
-        }
-      })
-      .catch();
-  });
+    //  The following actions are performed for each application user
+    application.userRefs.forEach((userRef) => {
+      userRef
+        .get()
+        .then((userSnap) => {
+          const user = <User>userSnap.data();
+          //  Perform trigger action
+          switch (trigger.triggerAction) {
+            case TriggerAction.eMail:
+              // send an email to the application users
+              sendEmail(trigger, event, user);
+              break;
+            case TriggerAction.SMS:
+              // Send a notification to each application user
+              sendSMS(trigger, event, user);
+              break;
+          }
+        })
+        .catch();
+    });
+  }
 }
 
 /**
- * Write an entry to trigger log everytime a trigger is fired
+ * Write an entry to trigger log every time a trigger is fired
+ * also update the trigger with the timestamp of when the trigger fired
  * @param event IOT event details
  * @param application Application in scope for the event
  * @param trigger Trigger that applies for the event/application
@@ -119,6 +144,14 @@ function writeTriggerLog(
   };
   console.log("triggerlog to write", JSON.stringify(triggerlog));
   db.collection("triggerlogs").add(triggerlog);
+  // Also update the trigger with timestamp of last time it fired
+  db.collection("applications")
+    .doc(application.id)
+    .collection("triggers")
+    .doc(trigger.id)
+    .update({
+      lastActionTimestamp: admin.firestore.Timestamp.fromDate(new Date()),
+    });
 }
 
 /**

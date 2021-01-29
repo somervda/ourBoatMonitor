@@ -178,7 +178,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       this.crudAction != Crud.Delete
     ) {
       let newValue = this.viewForm.get(fieldName).value;
-      if (toType && toType == "number") {
+      if (toType && toType == "Number") {
         newValue = Number(newValue);
       }
       console.log("update:", fieldName, newValue);

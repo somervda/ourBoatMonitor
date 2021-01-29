@@ -72,6 +72,7 @@ export class TriggerComponent implements OnInit, OnDestroy {
         triggerRangeMin: null,
         triggerRangeMax: null,
         message: null,
+        delayBetweenActions: 0,
       };
     } else {
       this.trigger = this.route.snapshot.data["trigger"];
@@ -122,6 +123,7 @@ export class TriggerComponent implements OnInit, OnDestroy {
         this.trigger.triggerRangeMax,
         [Validators.required, Validators.pattern("^[-+]?[0-9]*.?[0-9]+$")],
       ],
+      delayBetweenActions: [this.trigger.delayBetweenActions],
     });
 
     // Mark all fields as touched to trigger validation on initial entry to the fields
@@ -191,6 +193,9 @@ export class TriggerComponent implements OnInit, OnDestroy {
       let newValue = this.triggerForm.get(fieldName).value;
       if (toType && toType == "Toggle") {
         newValue = !newValue;
+      }
+      if (toType && toType == "Number") {
+        newValue = Number(newValue);
       }
 
       console.log("update:", fieldName, newValue);

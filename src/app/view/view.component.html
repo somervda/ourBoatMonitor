@@ -135,7 +135,7 @@
             <input
               matInput
               formControlName="scale"
-              (change)="onFieldUpdate('scale', 'number')"
+              (change)="onFieldUpdate('scale', 'Number')"
               placeholder="0.0"
             />
             <mat-error *ngIf="viewForm.controls['scale'].hasError('pattern')">
@@ -145,42 +145,21 @@
         </div>
       </div>
 
-      <div
-        style="
-          font-size: 11px;
-          font-weight: 400;
-          color: rgba(104, 104, 104, 0.788);
-          margin-bottom: 4px;
-        "
-      >
-        View Icon (32x32 , 20K or less)
-      </div>
+      <div class="mat-formfield-prompt-lookalike">Viewer Icon</div>
       <div>
-        <!-- <img class="photoURL" src="{{ (user$ | async)?.photoURL }}" /> -->
-        <!-- {{ (user$ | async)?.photoURL }} -->
-
         <div>
           <button
-            class="add-button"
+            class="small-upload-button"
             mat-raised-button
-            style="
-              margin: 4px;
-              margin-right: 10px;
-
-              font-weight: 400;
-              font-size: 14px;
-              padding: 4px;
-              line-height: normal;
-              vertical-align: top;
-            "
             (click)="fileUpload.click()"
+            matTooltip="Upload new viewer icon - max size 20KB, 32px by 32px"
           >
             Upload Icon
           </button>
           <img
             *ngIf="view.iconURL && view.iconURL != ''"
             [src]="view.iconURL"
-            style="height: 32px; width: 32px"
+            class="viewer-icon"
           />
           <input
             type="file"
