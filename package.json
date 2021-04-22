@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "cypress open",
     "sme": "source-map-explorer dist/ourBoatMonitor/**/*.js ",
-    "deploy": "ng build --prod && firebase deploy --only hosting && firebase deploy --only firestore:rules && firebase deploy --only functions"
+    "deploy": "ng build --prod && firebase deploy --only hosting && firebase deploy --only firestore:indexes && firebase deploy --only firestore:rules && firebase deploy --only functions"
   },
   "private": true,
   "dependencies": {

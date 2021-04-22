@@ -8,12 +8,7 @@
       >
         <mat-card-header
           style="cursor: pointer"
-          [routerLink]="
-            '/application/' +
-            appViewItem.appId +
-            '/myviewer/' +
-            appViewItem.viewId
-          "
+          [routerLink]="appViewItem.routerLink"
           [matTooltip]="'Click to go to ' + appViewItem.viewName"
         >
           <span mat-card-avatar>
@@ -32,12 +27,7 @@
         </mat-card-header>
         <mat-card-content
           style="cursor: pointer"
-          [routerLink]="
-            '/application/' +
-            appViewItem.appId +
-            '/myviewer/' +
-            appViewItem.viewId
-          "
+          [routerLink]="appViewItem.routerLink"
           [matTooltip]="'Click to go to ' + appViewItem.viewName + ' viewer'"
         >
           {{ appViewItem.viewDescription | truncate: 70 }}

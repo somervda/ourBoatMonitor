@@ -22,6 +22,7 @@ export class MyviewsComponent implements OnInit, OnDestroy {
     viewName?: string;
     viewDescription?: string;
     iconURL?: string;
+    routerLink?: string;
   }[] = [];
 
   constructor(
@@ -71,10 +72,23 @@ export class MyviewsComponent implements OnInit, OnDestroy {
                   viewName: view.name,
                   iconURL: view.iconURL,
                   viewDescription: view.description,
+                  routerLink:
+                    "/application/" + application.id + "/myviewer/" + view.id,
                 });
               }
             });
           });
+        // Always show the applocations view
+        this.appViewTree.push({
+          appId: application.id,
+          appName: application.name,
+          viewId: "dl",
+          viewName: "Device Locations",
+          iconURL: "/assets/icons/location.jpg",
+          viewDescription:
+            "View location of devices associated with this application",
+          routerLink: "/applocations/" + application.id,
+        });
       });
     });
   }

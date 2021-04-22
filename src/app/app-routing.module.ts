@@ -26,6 +26,7 @@ import { ViewComponent } from "./view/view.component";
 import { ViewResolver } from "./services/view-resolver";
 import { MyviewsComponent } from "./myviews/myviews.component";
 import { MyviewerComponent } from "./myviewer/myviewer.component";
+import { ApplocationsComponent } from "./applocations/applocations.component";
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -119,6 +120,14 @@ const routes: Routes = [
     canActivate: [permissionGuard],
     data: { permissions: ["isAdmin"] },
     runGuardsAndResolvers: "always",
+  },
+  // Show google maps for current location of each device in an application
+  {
+    path: "applocations/:id",
+    component: ApplocationsComponent,
+    resolve: { application: ApplicationResolver },
+    canActivate: [permissionGuard],
+    data: { permissions: ["isActivated"] },
   },
   //  My Views
   {
@@ -235,7 +244,12 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: "reload", relativeLinkResolution: 'legacy' })],
+  imports: [
+    RouterModule.forRoot(routes, {
+      onSameUrlNavigation: "reload",
+      relativeLinkResolution: "legacy",
+    }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

@@ -57,8 +57,9 @@ import { ViewslistComponent } from "./shared/viewslist/viewslist.component";
 import { ConfirmdialogComponent } from "./dialogs/confirmdialog/confirmdialog.component";
 import { MyviewsComponent } from "./myviews/myviews.component";
 import { MyviewerComponent } from "./myviewer/myviewer.component";
-
 import { GoogleChartsModule } from "angular-google-charts";
+import { ApplocationsComponent } from "./applocations/applocations.component";
+import { SafePipe } from './pipes/safe.pipe';
 
 @NgModule({
   declarations: [
@@ -90,6 +91,8 @@ import { GoogleChartsModule } from "angular-google-charts";
     ConfirmdialogComponent,
     MyviewsComponent,
     MyviewerComponent,
+    ApplocationsComponent,
+    SafePipe,
   ],
   imports: [
     BrowserModule,

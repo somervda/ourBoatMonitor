@@ -40,4 +40,25 @@ export class EventService {
         })
       );
   }
+
+  /**
+   * Find the most recent event for a device
+   * @param deviceRef A document reference for a device
+   */
+  findRecentByDevice(deviceRef: DocumentReference): Observable<Event[]> {
+    return this.afs
+      .collection(this.collectionName, (ref) =>
+        ref
+          .where("deviceRef", "==", deviceRef)
+          .orderBy("timestamp", "desc")
+          .limit(1)
+      )
+      .snapshotChanges()
+      .pipe(
+        map((snaps) => {
+          // console.log("find Events", convertSnaps<Event>(snaps));
+          return convertSnaps<Event>(snaps);
+        })
+      );
+  }
 }
