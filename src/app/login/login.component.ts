@@ -81,8 +81,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.snackBar.open("Logon successful for " + authUserInfo.user.email, "", {
       duration: 5000,
     });
-
-    this.ngZone.run(() => this.router.navigateByUrl("/"));
+    // Needed another delay to get user built before doing permission guard
+    await this.sleep(500);
+    this.ngZone.run(() => this.router.navigateByUrl("/myviews"));
   }
 
   sleep(ms) {
