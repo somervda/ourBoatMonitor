@@ -15,6 +15,19 @@
       {{ device.deviceName }}:
       {{ device.timestamp.toMillis() | date: "ddMMMyyyy h:mm a" }}
     </h4>
+    <a
+      [href]="
+        'https://maps.google.com/maps?q=' +
+        device.latitude +
+        ',' +
+        device.longitude +
+        '&t=&z=13&ie=UTF8'
+      "
+      target="_blank"
+      >https://maps.google.com/maps?q={{ device.latitude }},{{
+        device.longitude
+      }}</a
+    >
     <div class="mapouter">
       <div class="gmap_canvas">
         <iframe
@@ -26,7 +39,8 @@
               device.latitude +
               ',' +
               device.longitude +
-              '&t=&z=13&ie=UTF8&iwloc=&output=embed' | safe
+              '&t=&z=13&ie=UTF8&output=embed?key=AIzaSyBTXGNP8fuSxj8aZTz7VbQ4LduAZ20Jd3o'
+              | safe
           "
           frameborder="0"
           scrolling="no"
