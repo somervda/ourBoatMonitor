@@ -41,7 +41,7 @@ Cypress.Commands.add("verifyHomeComponent", () => {
   cy.get("#mainMenu").click();
   cy.get("#mainMenuHome").click();
   // Verify component was rendered
-  cy.get(".mat-card-title").contains("Code");
+  cy.get(".mat-card-title").contains("ourBoatMonitor");
 });
 
 Cypress.Commands.add("verifyMyProfileComponent", () => {
@@ -55,7 +55,7 @@ Cypress.Commands.add("verifyUsersComponent", () => {
   cy.get("#mainMenu").click();
   cy.get("#mainMenuUsers").click();
   cy.get("body").contains("Users");
-  cy.get("body").contains("normal@ourBoatMonitor.com").click();
+  cy.get("body").contains("normal@ourboatmonitor.com").click();
   cy.url().should("include", "user/");
   cy.get("body").contains("User Profile");
 });
