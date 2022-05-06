@@ -82,7 +82,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       duration: 5000,
     });
     // Needed another delay to get user built before doing permission guard
-    await this.sleep(500);
+    await this.sleep(2000);
     this.ngZone.run(() => this.router.navigateByUrl("/myviews"));
   }
 
